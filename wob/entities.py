@@ -289,6 +289,7 @@ class PurchasePolicy(Entity):
 @dataclasses.dataclass
 class OpportunityScore(Entity):
     score: float
+    version: str
     inputs: dict
     explanation: str
     computed_at: str
@@ -296,6 +297,8 @@ class OpportunityScore(Entity):
     def validate(self):
         if not (isinstance(self.score, (int, float)) and 0.0 <= self.score <= 1.0):
             raise _err("score", "float in [0,1]")
+        if not isinstance(self.version, str) or not self.version:
+            raise _err("version", "non-empty version string (e.g. wos/1.0)")
         if not isinstance(self.inputs, dict):
             raise _err("inputs", "dict")
         if not self.explanation.strip():
