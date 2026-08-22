@@ -4,6 +4,7 @@ import os
 import pathlib
 
 from .curated import match_quality
+from .entities import SCHEMA_VERSION
 
 
 def _data_dir():
@@ -132,6 +133,7 @@ def append_deals(records):
             if k in keys:
                 continue
             keys.add(k)
+            rec.setdefault("_schema", SCHEMA_VERSION)
             f.write(json.dumps(rec) + "\n")
             wrote += 1
     if wrote:
