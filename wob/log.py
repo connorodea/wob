@@ -40,14 +40,20 @@ def _emit(record):
         return
     try:
         with open(_JSON_SINK, "a", encoding="utf-8") as f:
-            f.write(json.dumps({
-                "ts": time.time(),
-                "level": record.levelname.lower(),
-                "logger": record.name,
-                "msg": record.getMessage(),
-                "name": getattr(record, "event", None),
-                "extra": getattr(record, "data", None),
-            }, default=str) + "\n")
+            f.write(
+                json.dumps(
+                    {
+                        "ts": time.time(),
+                        "level": record.levelname.lower(),
+                        "logger": record.name,
+                        "msg": record.getMessage(),
+                        "name": getattr(record, "event", None),
+                        "extra": getattr(record, "data", None),
+                    },
+                    default=str,
+                )
+                + "\n"
+            )
     except OSError:
         pass  # logging must never crash the pipeline
 
@@ -69,4 +75,4 @@ def setup(level=logging.INFO):
 
 
 def event(name, data=None, level=logging.INFO):
-    LOGGER.log(level, name, extra={"event": name, "data": data or {}})  # noqa: G003
+    LOGGER.log(level, name, extra={"event": name, "data": data or {}})
