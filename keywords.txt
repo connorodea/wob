@@ -68,3 +68,22 @@ randomised control trial
 instrumental variable analysis
 counterfactual outcome modelling
 a b test design
+audio machine learning
+speech recognition
+keyword spotting
+sound event detection
+robotics perception
+visual odometry
+robot manipulation
+llm engineering
+retrieval augmented generation
+prompt engineering
+vector databases
+numerical linear algebra
+matrix computations
+3d vision
+gaussian splatting
+neural radiance fields
+medical image analysis
+machine learning healthcare
+clinical informatics

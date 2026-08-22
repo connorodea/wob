@@ -25,7 +25,7 @@ Legend: ✅ implemented · ◐ partial · ❌ missing · ⛔ blocked · ⏸ defe
 |---|-----------|-------|
 | 0 | Reproducible foundation | ◐ progress — typed entities (13, versioned), typed config w/ env validation, structured logging (log.py), 27 fixture tests, CI (tests + lint + harness), pyproject. Left: wire session.py→config, repo-wide lint debt, benchmark runner (eval.py) |
 | 1 | Canonical book + offer pipeline | ◐ ISBN normalize (isbnlib), dedupe, snapshots, connector registry, retries exist; landed cost, currency normalization, full provenance missing |
-| 2 | Book & edition entity resolution | ◐ exact ISBN + crude token-title match; no edition classes, no calibration/abstention, no embeddings, no labeled eval set |
+| 2 | Book & edition entity resolution | ◐ baseline shipped — deterministic resolver R1-R6 w/ abstention, 24-pair labeled set, per-class eval (1.0 baseline). Left: dataset growth to 100+ pairs, embeddings only if they beat the baseline |
 | 3 | Deal intelligence + WOS v1 | ◐ pct_off, history, alerts, condition picker; no fair-value model, seller trust, scarcity, or WOS formula |
 | 4 | Personalized recommendations | ◐ hybrid similarity + course co-membership + discount boost with scores; no cold-start profile, interaction signals, or offline eval metrics |
 | 5 | Reading-list & semester optimization | ◐ paste/drop parse, ISBN/title match, OL heal; no required/optional class, substitution logic, or basket optimizer |
