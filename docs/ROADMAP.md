@@ -23,7 +23,7 @@ Legend: ✅ implemented · ◐ partial · ❌ missing · ⛔ blocked · ⏸ defe
 
 | M | Milestone | State |
 |---|-----------|-------|
-| 0 | Reproducible foundation | ◐ venv/npm bootstrap + git/CI + custom verify harness exist; typed config, schemas, fixture tests, lint/type-check missing |
+| 0 | Reproducible foundation | ◐ progress — typed entities (13, versioned), typed config w/ env validation, structured logging (log.py), 27 fixture tests, CI (tests + lint + harness), pyproject. Left: wire session.py→config, repo-wide lint debt, benchmark runner (eval.py) |
 | 1 | Canonical book + offer pipeline | ◐ ISBN normalize (isbnlib), dedupe, snapshots, connector registry, retries exist; landed cost, currency normalization, full provenance missing |
 | 2 | Book & edition entity resolution | ◐ exact ISBN + crude token-title match; no edition classes, no calibration/abstention, no embeddings, no labeled eval set |
 | 3 | Deal intelligence + WOS v1 | ◐ pct_off, history, alerts, condition picker; no fair-value model, seller trust, scarcity, or WOS formula |
