@@ -1,0 +1,18 @@
+[wob] search: 'woodworking' -> 400 hits
+  skip 'traditional-furniture-projects-book-editors-of-fin': request blocked and no SCRAPINGBEE_API_KEY available
+  skip 'design-book-book-editors-of-fine-woodworking-97815': request blocked and no SCRAPINGBEE_API_KEY available
+  skip 'seven-essentials-of-woodworking-book-guidice-antho': request blocked and no SCRAPINGBEE_API_KEY available
+  skip 'design-book-book-fine-woodworking-9780942391282': request blocked and no SCRAPINGBEE_API_KEY available
+  skip 'fine-woodworking-on-things-to-make-book-of-fine-wo': request blocked and no SCRAPINGBEE_API_KEY available
+  'woodworking': 9 new deals
+[wob] search: 'home brewing' -> 74 hits
+  'home brewing': 8 new deals
+[wob] search: 'sourdough baking' -> 70 hits
+  'sourdough baking': 0 new deals
+[tb] search: 'woodworking' -> 50 hits
+  'woodworking': 12 new deals
+[tb] search: 'home brewing' -> 50 hits
+  'home brewing': 6 new deals
+[tb] search: 'sourdough baking' -> 50 hits
+  'sourdough baking': 0 new deals
+done: 35 new deals, 4535 total tracked

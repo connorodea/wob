@@ -1,0 +1,70 @@
+machine learning
+deep learning
+neural networks
+artificial intelligence
+natural language processing
+computer vision
+reinforcement learning
+transformers
+data science
+pytorch
+tensorflow
+machine learning with python
+python machine learning
+ai
+statistical learning
+bayesian
+mathematics for machine learning
+programming pytorch
+transformer architecture
+large language models
+attention mechanism
+neural machine translation
+language model pretraining
+denoising diffusion probabilistic models
+stable diffusion guide
+score based generative modeling
+latent diffusion model book
+generative ai with diffusion
+markov decision processes
+deep reinforcement learning
+policy gradient methods
+q learning
+computer vision algorithms
+image processing textbook
+opencv python guide
+deep learning vision
+pattern recognition machine
+image processing fundamentals
+deep learning for vision
+multiple view geometry
+opencv programming guide
+text mining
+speech recognition
+machine translation
+computational linguistics
+bayesian data analysis
+probabilistic programming
+markov chain monte carlo
+bayesian hierarchical models
+stan modeling language
+machine learning engineering
+mlops principles
+deploying ml models
+ml system design
+model monitoring
+time series forecasting book
+used forecasting textbooks
+arima model guide
+applied time series analysis
+forecasting principles practice
+graph neural network
+gnn architectures
+graph attention networks
+spectral graph convolution
+message passing neural network
+causal inference experiments
+randomised control trial
+instrumental variable analysis
+counterfactual outcome modelling
+a b test design

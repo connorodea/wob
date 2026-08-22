@@ -1,0 +1,3 @@
+machine learning for dummies
+data science from scratch
+designing machine learning systems

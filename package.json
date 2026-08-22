@@ -1,0 +1,11 @@
+{
+  "name": "wob-cli",
+  "version": "0.1.0",
+  "description": "The ivy-league book radar: cross-web price search by ISBN, 35 university course packs, taste-based recommendations, price-drop alerts — all for used books 70%+ off.",
+  "bin": { "wob": "bin/wob.js" },
+  "scripts": { "postinstall": "node scripts/install.js" },
+  "files": ["bin/", "scripts/", "wob/", "keywords.txt", "sets/", "requirements.txt", "README.md", "AGENTS.md"],
+  "engines": { "node": ">=16" },
+  "keywords": ["books", "deals", "textbooks", "isbn", "barcode", "price-comparison", "recommendation", "cli", "university"],
+  "license": "MIT"
+}

@@ -1,0 +1,11 @@
+autonomy heartbeat armed 2026-08-22 09:10:32
+--- checkpoint 1 at 2026-08-22 09:12:18 ---
+deals: 2156 | Q re-lit +4 | csv rebuilt | harness 7/7
+npm: package ready, publish blocked on npm login (Connor)
+scan: done. watchdog: armed 12h. agenda: data/logs/autonomy-12h-agenda.md
+--- tick 1 at 2026-08-22 11:10:34 ---
+snapshot: 2156 deals, 75 Q-tier
+--- checkpoint 2 at 2026-08-22 11:48:27 ---
+wob track shipped: 15 re-priced, real drops detected (NLP book $7.89->$4.98)
+docs updated (README npm install, AGENTS theme/npm/data-dir/track notes)
+npm publish: still blocked on Connor npm login

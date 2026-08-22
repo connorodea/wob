@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wob — the book radar</title>
+<style>
+:root{
+  /* refero-informed: paper canvas, ink serif, single forest accent, marker
+     highlights, black pills, hairline rows — museum-catalog calm */
+  --paper:#faf8f2; --sheet:#fffefb; --ink:#1a1711; --mute:#8d8572;
+  --hair:rgba(26,23,17,.16); --forest:#1f6b3d; --forest-soft:#eaf2ea;
+  --marker:#f4e79e; --marker-soft:rgba(244,231,158,.45);
+  --rose:#a3372f; --rose-soft:#f6e8e6; --black:#17140f;
+  --serif:"Bodoni 72","Iowan Old Style",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
+  --mono:"SF Mono",ui-monospace,Menlo,monospace;
+  --r:0px;
+}
+@media (prefers-color-scheme: dark){
+  :root{--paper:#100e0a; --sheet:#17140e; --ink:#eee8db; --mute:#96907d;
+    --hair:rgba(238,232,219,.16); --forest:#8cc79d; --forest-soft:#1c2b1f;
+    --marker:#3a3213; --marker-soft:rgba(216,178,74,.25); --rose:#e0938b;
+    --rose-soft:#2f1d1a; --black:#eee8db;}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1060px;margin:0 auto;padding:34px 22px 90px}
+header{text-align:center;padding-bottom:26px;border-bottom:1px solid var(--hair)}
+.brand{font-family:var(--serif);font-size:44px;font-weight:600;letter-spacing:.02em}
+.brand em{font-style:italic;color:var(--forest)}
+.motto{color:var(--mute);font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;margin-top:6px}
+.stats{display:flex;justify-content:center;gap:26px;margin-top:16px;
+  font-family:var(--mono);font-size:12px;color:var(--mute)}
+.stats b{color:var(--ink);font-weight:500}
+nav{display:flex;justify-content:center;gap:6px;padding:18px 0 4px}
+nav button{background:none;border:none;padding:8px 16px;cursor:pointer;
+  font-family:var(--sans);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);border-bottom:2px solid transparent}
+nav button:hover{color:var(--ink)}
+nav button.on{color:var(--ink);border-bottom-color:var(--forest)}
+main{margin-top:26px}
+.section-head{font-family:var(--serif);font-size:21px;margin:26px 0 10px}
+.section-sub{color:var(--mute);font-size:13px;margin:-6px 0 14px}
+.row{display:flex;align-items:center;gap:14px;padding:10px 2px;border-bottom:1px solid var(--hair)}
+.row:last-child{border-bottom:none}
+.qstar{width:18px;text-align:center}
+.qstar .m{background:var(--marker-soft);border-radius:3px;padding:0 4px;border:1px solid var(--marker)}
+.pct{font-family:var(--mono);font-weight:600;font-size:13px;min-width:50px;color:var(--ink)}
+.bar{width:56px;height:5px;border-radius:999px;background:var(--hair);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--forest)}
+.price{font-family:var(--mono);min-width:70px;text-align:right;font-weight:600;color:var(--forest)}
+.was{font-family:var(--mono);color:var(--mute);font-size:12px;text-decoration:line-through;min-width:60px;text-align:right}
+.cond{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mute);min-width:96px;white-space:nowrap}
+.cond.NEW,.cond.LIKE_NEW,.cond.VERY_GOOD{color:var(--forest)}
+.cond.GOOD,.cond.WELL_READ{color:#9a7b1d}
+.cond.ACCEPTABLE{color:var(--rose)}
+.site{font-family:var(--mono);font-size:11px;color:var(--mute);min-width:34px}
+.title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.title small{color:var(--mute);margin-left:8px}
+a{color:var(--forest);text-decoration:none}
+a.btn{display:inline-block;border:1px solid var(--hair);border-radius:999px;
+  padding:3px 13px;font-size:12px;color:var(--ink);white-space:nowrap}
+a.btn:hover{border-color:var(--forest);color:var(--forest);text-decoration:none}
+.toolbar{display:flex;gap:12px;align-items:center;padding:12px 0 18px;flex-wrap:wrap}
+input,textarea,select{font-family:var(--sans);font-size:14px;padding:9px 13px;
+  border:1px solid var(--hair);border-radius:0;background:var(--sheet);color:var(--ink);width:100%}
+textarea{min-height:150px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--forest-soft);border-color:var(--forest)}
+button.cta{background:var(--black);color:var(--paper);border:none;padding:9px 20px;
+  border-radius:999px;cursor:pointer;font-size:13px;letter-spacing:.04em}
+button.cta.secondary{background:transparent;border:1px solid var(--hair);color:var(--ink)}
+button.cta:hover{opacity:.88}
+.panel{background:var(--sheet);border:1px solid var(--hair);padding:6px 20px}
+.drop{border:2px dashed var(--hair);border-radius:0;padding:34px 20px;text-align:center;
+  color:var(--mute);cursor:pointer;transition:border-color .15s,background .15s}
+.drop.hot{border-color:var(--forest);background:var(--forest-soft)}
+.drop .big{font-family:var(--serif);font-size:20px;color:var(--ink)}
+.hint{color:var(--mute);font-size:12.5px}
+.center{padding:28px;text-align:center;color:var(--mute)}
+.empty{color:var(--mute);padding:22px 0;text-align:center}
+.empty .big{font-family:var(--serif);font-size:26px;color:var(--ink)}
+.badge{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 10px;
+  border:1px solid var(--hair);border-radius:999px}
+.badge.ok{color:var(--forest);border-color:var(--forest)}
+.badge.gold{background:var(--marker-soft);border-color:var(--marker)}
+.badge.rose{color:var(--rose);border-color:var(--rose)}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media (max-width:820px){.cols2{grid-template-columns:1fr}}
+.hero{display:flex;align-items:center;gap:34px;padding:36px 40px;border:1px solid var(--hair);
+  background:var(--sheet)}
+.hero .says{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.hero .t{font-family:var(--serif);font-size:32px;line-height:1.2;margin:10px 0 4px}
+.hero .a{color:var(--mute)}
+.hero .meta{font-family:var(--mono);font-size:16px;color:var(--forest);margin-top:16px}
+kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--hair);border-bottom-width:2px;
+  border-radius:4px;padding:1px 6px}
+kbd.hot{margin-left:10px;color:var(--mute)}
+footer{color:var(--mute);font-size:12px;text-align:center;padding:44px 0 0}
+@media (prefers-color-scheme: dark){button.cta{color:#17140f;background:var(--black)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">w<em>o</em>b<kbd class="hot" id="kbd-hint" title="shortcuts">1–5</kbd></div>
+    <div class="motto">the book radar · ad meliores libros</div>
+    <div class="stats" id="stats"></div>
+  </header>
+  <nav>
+    <button data-tab="deals" class="on">Deals<kbd>1</kbd></button>
+    <button data-tab="search">Search<kbd>2</kbd></button>
+    <button data-tab="courses">Courses<kbd>3</kbd></button>
+    <button data-tab="recommend">Recommend<kbd>4</kbd></button>
+    <button data-tab="alerts">Alerts<kbd>5</kbd></button>
+  </nav>
+  <main>
+    <section id="tab-deals"></section>
+    <section id="tab-search" hidden></section>
+    <section id="tab-courses" hidden></section>
+    <section id="tab-recommend" hidden></section>
+    <section id="tab-alerts" hidden></section>
+  </main>
+  <footer>wob — find the best price on the books that matter · every scan refreshes this shelf</footer>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=v=>v==null?"—":"$"+Number(v).toFixed(2);
+const pct=p=>p==null?"—":(p*100).toFixed(1)+"%";
+const q=m=>`<span class="qstar"><span class="m">✦</span></span>`;const q0=m=>`<span class="qstar"></span>`;
+const site=t=>`<span class="site">${esc((t||"").replace("local:",""))}</span>`;
+const cond=c=>`<span class="cond ${esc(c||"")}">${esc(c||"–")}</span>`;
+const bar=(p,w=56)=>`<span class="bar" style="width:${w}px"><i style="width:${Math.min(100,(p||0)*100)}%"></i></span>`;
+const empty=(big,small)=>`<div class="empty"><div class="big">${big}</div>${small||""}</div>`;
+async function api(path,opt){const r=await fetch(path,opt);return r.json();}
+
+let current="deals";
+function show(tab, silent){
+  current=tab;
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.tab===tab));
+  document.querySelectorAll("main section").forEach(s=>s.hidden=s.id!=="tab-"+tab);
+  if(!silent)tabs[tab]();
+}
+const tabs={};
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>show(b.dataset.tab));
+addEventListener("keydown",e=>{
+  if(e.target.matches("input,textarea,select"))return;
+  const n={deals:1,search:2,courses:3,recommend:4,alerts:5}[current];
+  const map={1:"deals",2:"search",3:"courses",4:"recommend",5:"alerts"};
+  if(map[e.key])show(map[e.key]);
+});
+
+async function loadStats(){
+  const s=await api("/api/stats");
+  $("#stats").innerHTML=
+    `<span>${s.deals} <b>deals</b></span>`+
+    `<span>${s.quality} <b>curated ✦</b></span>`+
+    `<span>${s.avg_pct}% <b>avg off</b></span>`+
+    `<span>$<b>${Number(s.saved).toLocaleString()}</b> saved</span>`;
+}
+
+function dealRow(r,i,best){
+  return `<div class="row ${best?"hero-row":""}">
+    ${r.quality?q():q0()} <span class="pct">${pct(r.pct_off)}</span> ${bar(r.pct_off)}
+    <span class="price">${money(r.used_price)}</span>
+    <span class="was">${r.new_price?money(r.new_price):""}</span>
+    ${cond(r.condition)} ${site(r.site)}
+    <span class="title">${esc(r.title)}<small>${esc(r.author||"")}</small></span>
+    ${r.url?`<a class="btn" href="${esc(r.url)}" target="_blank">buy ↗</a>`:""}
+  </div>`;
+}
+
+tabs.deals=async function(){
+  const el=$("#tab-deals");
+  el.innerHTML=`<div class="toolbar">
+      <input id="f-q" placeholder="filter title / author" style="max-width:240px">
+      <select id="f-off" style="max-width:170px"><option value="0">any discount</option>
+        <option value="0.7" selected>70% off and up</option>
+        <option value="0.8">80%+</option><option value="0.9">90%+</option></select>
+      <select id="f-site" style="max-width:140px"><option value="">everywhere</option>
+        <option value="wob">worldofbooks</option><option value="tb">thriftbooks</option></select>
+      <label><input type="checkbox" id="f-q3" style="width:auto"> curated ✦ only</label>
+      <button class="cta" id="f-go">show</button></div>
+    <div id="hero"></div>
+    <div class="panel" id="deal-list"></div>`;
+  const render=async()=>{
+    const q=encodeURIComponent($("#f-q").value||"");
+    const d=await api(`/api/deals?top=160&min_off=${$("#f-off").value}&quality=${$("#f-q3").checked?1:0}&q=${q}`);
+    let rows=d.rows;
+    const siteF=$("#f-site").value;
+    if(siteF)rows=rows.filter(r=>r.site===siteF);
+    const hero=rows[0];
+    $("#hero").innerHTML=hero?`<div class="hero">
+        <div><div class="says">this week's finest</div>
+        <div class="t">${esc(hero.title)}</div>
+        <div class="a">${esc(hero.author||"")}</div></div>
+        <div class="meta">${money(hero.used_price)} <span style="color:var(--ink)">· ${pct(hero.pct_off)} off</span><br>
+        <span class="says" style="letter-spacing:.1em">${esc(hero.condition)} · ${esc(hero.site)}</span><br>
+        ${hero.url?`<a class="btn" href="${esc(hero.url)}" target="_blank">open listing ↗</a>`:""}</div>
+      </div>`:"";
+    $("#deal-list").innerHTML=rows.length?rows.map((r,i)=>dealRow(r,i,i===0)).join(""):empty("the shelf is quiet","run <code>wob scan</code> and come back");
+  };
+  $("#f-go").onclick=render;$("#f-off").onchange=render;$("#f-site").onchange=render;$("#f-q3").onchange=render;
+  $("#f-q").onkeydown=e=>{if(e.key==="Enter")render()};
+  render();
+};
+
+tabs.search=async function(){
+  const el=$("#tab-search");
+  el.innerHTML=`<div class="pad">
+    <div class="section-head" style="margin-top:0">find one book</div>
+    <div class="toolbar">
+      <input id="s-isbn" placeholder="ISBN — e.g. 9780134757599" style="max-width:300px">
+      <button class="cta" id="s-go">compare prices</button>
+      <button class="cta secondary" id="s-scan">also scan it now</button>
+      <span class="hint">OpenLibrary + Google Books + your local scans; paid sources on request</span>
+    </div><div id="s-out"></div></div>`;
+  const go=async()=>{
+    const isbn=$("#s-isbn").value.trim();
+    if(!isbn){$("#s-out").innerHTML=empty("paste an ISBN","10 or 13 digits, hyphens fine");return;}
+    $("#s-out").innerHTML=`<div class="center">searching the stacks…</div>`;
+    const d=await api(`/api/search?isbn=${encodeURIComponent(isbn)}`);
+    if(d.error){$("#s-out").innerHTML=`<div class="center">${esc(d.error)}</div>`;return;}
+    $("#s-out").innerHTML=`${d.ref?`<div class="section-head">reference (new): ${money(d.ref)}</div>`:""}
+      <div class="panel">${d.rows.map((r,i)=>`
+        <div class="row"><span class="qstar">${i===0&&r.price!=null?"<span class='m'>✦</span>":""}</span>
+        <span class="price">${r.error?esc(r.error):money(r.price)}</span> ${cond(r.condition)} ${site(r.site)}
+        <span class="title">${esc(r.title||"")}${r.seller?`<small>${esc(r.seller)}</small>`:""}</span>
+        ${r.url?`<a class="btn" href="${esc(r.url)}" target="_blank">open ↗</a>`:""}</div>`).join("")||empty("nothing found","try another ISBN, or run a scan first")}</div>`;
+  };
+  $("#s-go").onclick=go;$("#s-isbn").onkeydown=e=>{if(e.key==="Enter")go()};
+  $("#s-scan").onclick=async()=>{
+    const isbn=$("#s-isbn").value.trim();
+    $("#s-out").innerHTML=`<div class="center">scanning… (${esc(isbn)}) — check the terminal</div>`;
+    const r=await fetch(`/api/action/scan?isbn=${encodeURIComponent(isbn)}`);
+    $("#s-out").innerHTML=`<div class="center">${esc((await r.json()).msg||"done")}</div>`;
+  };
+};
+
+tabs.courses=async function(){
+  const packs=(await api("/api/coursepacks")).packs;
+  const el=$("#tab-courses");
+  el.innerHTML=`<div class="cols2"><div>
+    <div class="section-head" style="margin-top:0">catalog packs <span class="hint">(${packs.length})</span></div>
+    <select id="c-sel" style="margin-bottom:10px">${packs.map(p=>`<option value="${esc(p.id)}">${esc(p.name)} · ${p.books} books</option>`).join("")}</select>
+    <button class="cta" id="c-go">price my semester</button>
+    <div id="c-out" style="margin-top:14px"></div>
+  </div><div>
+    <div class="section-head" style="margin-top:0">your own book list</div>
+    <div class="section-sub">paste a syllabus — one book per line, ISBNs welcome — or drop a .csv/.txt file</div>
+    <div class="drop" id="drop">
+      <div class="big">drop your reading list here</div>
+      <div class="hint">Pattern Recognition and Machine Learning, Christopher Bishop<br>
+      Artificial Intelligence: A Modern Approach — 9780134610993</div>
+    </div>
+    <textarea id="u-lines" placeholder="one book per line&#10;title, author&#10;or paste ISBNs"></textarea>
+    <div class="toolbar"><button class="cta" id="u-go">price my list</button>
+    <span class="hint" id="u-note"></span></div>
+    <div id="u-out"></div>
+  </div></div>`;
+  const go=async()=>{
+    const d=await api("/api/coursepack/"+encodeURIComponent($("#c-sel").value));
+    $("#c-out").innerHTML=`<div class="panel">`+d.books.map(b=>b.found?
+      `<div class="row">${b.quality?q():q0()}<span class="price">${money(b.price)}</span><span class="pct">${pct(b.pct_off)}</span>
+       ${cond(b.condition)} ${site(b.site)}<span class="title">${esc(b.book)}</span>
+       <a class="btn" href="${esc(b.url)}" target="_blank">buy ↗</a></div>`:
+      `<div class="row"><span class="cond">—</span><span class="title">${esc(b.book)}</span>
+       <span class="hint">not scanned yet · <code>wob coursepack ${esc(d.id)} --scan</code></span></div>`).join("")+
+      `</div><div class="hint" style="padding:12px 2px">${d.found}/${d.books.length} in stock · basket <b>${money(d.total)}</b></div>`;
+  };
+  $("#c-go").onclick=go;go();
+  const send=async()=>{
+    const lines=$("#u-lines").value.split("\n").map(s=>s.trim()).filter(Boolean);
+    if(!lines.length){$("#u-note").textContent="paste at least one book";return;}
+    $("#u-note").textContent="pricing…";
+    const d=await api("/api/pricelist",{method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({lines,heal:true})});
+    $("#u-out").innerHTML=`<div class="panel">`+d.rows.map(r=>r.found?
+      `<div class="row">${r.quality?q():q0()}<span class="price">${money(r.price)}</span><span class="pct">${pct(r.pct_off)}</span>
+       ${cond(r.condition)} ${site(r.site)}<span class="title">${esc(r.title)}<small>${esc(r.line)}</small></span>
+       <a class="btn" href="${esc(r.url)}" target="_blank">buy ↗</a></div>`:
+      `<div class="row"><span class="cond">missing</span><span class="title">${esc(r.line)}</span>
+       <span class="hint">try <code>wob scan --term "..."</code></span></div>`).join("")+`</div>
+       <div class="hint" style="padding:12px 2px">${d.found}/${d.in} found · basket <b>${money(d.total_price)}</b></div>`;
+    $("#u-note").textContent=d.found===d.in?"all priced — nice list":"add missing titles to your next scan";
+  };
+  $("#u-go").onclick=send;
+  const dropEl=$("#drop");
+  dropEl.onclick=()=>$("#u-lines").focus();
+  dropEl.ondragover=e=>{e.preventDefault();dropEl.classList.add("hot")};
+  dropEl.ondragleave=()=>dropEl.classList.remove("hot");
+  dropEl.ondrop=e=>{e.preventDefault();dropEl.classList.remove("hot");
+    const f=e.dataTransfer.files[0];
+    if(!f)return;
+    const r=new FileReader();
+    r.onload=()=>{
+      let txt=r.result;
+      const first=txt.split("\n")[0].toLowerCase();
+      if(first.includes(",")&&!txt.includes("@")&&txt.split("\n").length<5000){
+        const rows=txt.split("\n").slice(1).map(l=>l.split(",").slice(0,3).join(" ").replace(/"/g,""));
+        txt=rows.join("\n");
+      }
+      $("#u-lines").value+=($("#u-lines").value?"\n":"")+txt;
+    };
+    r.readAsText(f);
+  };
+};
+
+tabs.recommend=async function(){
+  const el=$("#tab-recommend");
+  el.innerHTML=`<div class="section-head" style="margin-top:0">if you like…</div>
+    <div class="toolbar"><input id="r-like" placeholder="a book you loved — e.g. Pattern Recognition and Machine Learning" style="max-width:460px">
+    <button class="cta" id="r-go">recommend</button></div><div id="r-out"></div>`;
+  const go=async()=>{
+    const likes=$("#r-like").value.trim();
+    if(!likes){$("#r-out").innerHTML=empty("name a favorite","the shelf does the rest");return;}
+    const d=await api(`/api/recommend?like=${encodeURIComponent(likes)}&top=7`);
+    $("#r-out").innerHTML=`<div class="panel">`+d.rows.map(r=>`
+      <div class="row"><span class="pct">${(r.sim??0).toFixed(3)}</span> ${bar(r.sim,(r.sim||0)/1.2*84)}
+      <span class="price">${r.price!=null?money(r.price):"—"}</span> ${cond(r.cond||"")} ${site(r.site||"")}
+      <span class="title">${esc(r.price!=null?r.title:r.label)}</span>
+      ${r.url?`<a class="btn" href="${esc(r.url)}" target="_blank">buy ↗</a>`:""}</div>`).join("")+`</div>`;
+  };
+  $("#r-go").onclick=go;$("#r-like").onkeydown=e=>{if(e.key==="Enter")go()};
+};
+
+tabs.alerts=async function(){
+  const el=$("#tab-alerts");
+  const [a,h]=await Promise.all([api("/api/alerts"),api("/api/history?top=15")]);
+  const drops=(h.rows||[]).map(d=>`<div class="row">
+    <span class="badge ok">▼ −$${Math.abs(d.delta).toFixed(2)}</span>
+    <span class="price">${money(d.cur)}</span><span class="was">${money(d.prev)}</span>
+    ${site(d.site||"")}<span class="title">${esc(d.ident)}</span></div>`).join("");
+  const screams=(a.rows||[]).filter(x=>x.kind==="scream").map(x=>`<div class="row">
+    <span class="badge gold">✦ ${money(x.price)}</span> ${bar(x.pct_off)}
+    <span class="pct">${pct(x.pct_off)}</span> ${site(x.site||"")}
+    <span class="title">${esc(x.title)}</span>
+    ${x.url?`<a class="btn" href="${esc(x.url)}" target="_blank">open ↗</a>`:""}</div>`).join("");
+  el.innerHTML=`<div class="section-head" style="margin-top:0">price drops <span class="hint">(refresh with <code>wob track</code>)</span></div>
+    <div class="panel">${drops||empty("no drops logged","prices move — track weekly to catch them")}</div>
+    <div class="section-head">screaming deals <span class="hint">curated · under $10</span></div>
+    <div class="panel">${screams||empty("none right now","a good week for buyers")}</div>`;
+};
+
+loadStats();show("deals",true);
+</script>
+</body>
+</html>

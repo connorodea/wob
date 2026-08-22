@@ -1,0 +1,5 @@
+# example topic set — any search terms work
+# copy this file, add your terms, then: wob schedule add <name> --keywords sets/<file> --every <hours>
+woodworking
+home brewing
+sourdough baking

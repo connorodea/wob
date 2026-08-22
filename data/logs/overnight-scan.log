@@ -1,0 +1,287 @@
+[wob] search: 'machine learning' -> 400 hits
+  'machine learning': 0 new deals
+[wob] search: 'deep learning' -> 400 hits
+  'deep learning': 0 new deals
+[wob] search: 'neural networks' -> 259 hits
+  'neural networks': 0 new deals
+[wob] search: 'artificial intelligence' -> 400 hits
+  'artificial intelligence': 0 new deals
+[wob] search: 'natural language processing' -> 108 hits
+  'natural language processing': 0 new deals
+[wob] search: 'computer vision' -> 144 hits
+  'computer vision': 0 new deals
+[wob] search: 'reinforcement learning' -> 64 hits
+  skip 'management-and-supervision-in-law-enforcement-book': 404 Client Error: Not Found for url: https://www.worldofbooks.com/products/management-and-supervision-in-law-enforcement-book-shaun-ladue-9781285447926.js
+  'reinforcement learning': 2 new deals
+[wob] search: 'transformers' -> 400 hits
+  'transformers': 0 new deals
+[wob] search: 'data science' -> 400 hits
+  'data science': 0 new deals
+[wob] search: 'pytorch' -> 60 hits
+  'pytorch': 0 new deals
+[wob] search: 'tensorflow' -> 72 hits
+  'tensorflow': 0 new deals
+[wob] search: 'machine learning with python' -> 132 hits
+  'machine learning with python': 0 new deals
+[wob] search: 'python machine learning' -> 218 hits
+  'python machine learning': 0 new deals
+[wob] search: 'ai' -> 400 hits
+  'ai': 0 new deals
+[wob] search: 'statistical learning' -> 400 hits
+  'statistical learning': 1 new deals
+[wob] search: 'bayesian' -> 248 hits
+  'bayesian': 1 new deals
+[wob] search: 'mathematics for machine learning' -> 45 hits
+  'mathematics for machine learning': 0 new deals
+[wob] search: 'programming pytorch' -> 3 hits
+  'programming pytorch': 0 new deals
+[wob] search: 'transformer architecture' -> 11 hits
+  'transformer architecture': 0 new deals
+[wob] search: 'large language models' -> 76 hits
+  'large language models': 2 new deals
+[wob] search: 'attention mechanism' -> 2 hits
+  'attention mechanism': 0 new deals
+[wob] search: 'neural machine translation' -> 1 hits
+  'neural machine translation': 0 new deals
+[wob] search: 'language model pretraining' -> 400 hits
+  'language model pretraining': 106 new deals
+[wob] search: 'denoising diffusion probabilistic models' -> 400 hits
+  skip 'stats-book-richard-de-veaux-9780133956498': 404 Client Error: Not Found for url: https://www.worldofbooks.com/products/stats-book-richard-de-veaux-9780133956498.js
+  'denoising diffusion probabilistic models': 153 new deals
+[wob] search: 'stable diffusion guide' -> 400 hits
+  skip 'norton-field-guide-to-writing-with-readings-book-r': 404 Client Error: Not Found for url: https://www.worldofbooks.com/products/norton-field-guide-to-writing-with-readings-book-richard-bullock-deborah-bertsc-9780393884074.js
+  'stable diffusion guide': 111 new deals
+[wob] search: 'score based generative modeling' -> 400 hits
+  'score based generative modeling': 142 new deals
+[wob] search: 'latent diffusion model book' -> 400 hits
+  skip 'guide-to-weaving-book-alan-bridgewater-97808524285': 404 Client Error: Not Found for url: https://www.worldofbooks.com/products/guide-to-weaving-book-alan-bridgewater-9780852428597.js
+  'latent diffusion model book': 63 new deals
+[wob] search: 'generative ai with diffusion' -> 5 hits
+  'generative ai with diffusion': 0 new deals
+[wob] search: 'markov decision processes' -> 2 hits
+  'markov decision processes': 0 new deals
+[wob] search: 'deep reinforcement learning' -> 19 hits
+  'deep reinforcement learning': 0 new deals
+[wob] search: 'policy gradient methods' -> 1 hits
+  'policy gradient methods': 0 new deals
+[wob] search: 'q learning' -> 102 hits
+  'q learning': 18 new deals
+[wob] search: 'computer vision algorithms' -> 10 hits
+  'computer vision algorithms': 0 new deals
+[wob] search: 'image processing textbook' -> 3 hits
+  'image processing textbook': 0 new deals
+[wob] search: 'opencv python guide' -> 1 hits
+  'opencv python guide': 0 new deals
+[wob] search: 'deep learning vision' -> 21 hits
+  'deep learning vision': 0 new deals
+[wob] search: 'pattern recognition machine' -> 34 hits
+  'pattern recognition machine': 0 new deals
+[wob] search: 'image processing fundamentals' -> 12 hits
+  'image processing fundamentals': 2 new deals
+[wob] search: 'deep learning for vision' -> 9 hits
+  'deep learning for vision': 0 new deals
+[wob] search: 'multiple view geometry' -> 1 hits
+  'multiple view geometry': 0 new deals
+[wob] search: 'opencv programming guide' -> 400 hits
+  'opencv programming guide': 101 new deals
+[wob] search: 'text mining' -> 28 hits
+  'text mining': 5 new deals
+[wob] search: 'speech recognition' -> 23 hits
+  'speech recognition': 3 new deals
+[wob] search: 'machine translation' -> 21 hits
+  'machine translation': 0 new deals
+[wob] search: 'computational linguistics' -> 29 hits
+  'computational linguistics': 0 new deals
+[wob] search: 'bayesian data analysis' -> 14 hits
+  'bayesian data analysis': 0 new deals
+[wob] search: 'probabilistic programming' -> 1 hits
+  'probabilistic programming': 0 new deals
+[wob] search: 'markov chain monte carlo' -> 5 hits
+  'markov chain monte carlo': 1 new deals
+[wob] search: 'bayesian hierarchical models' -> 1 hits
+  'bayesian hierarchical models': 0 new deals
+[wob] search: 'stan modeling language' -> 400 hits
+  'stan modeling language': 22 new deals
+[wob] search: 'machine learning engineering' -> 84 hits
+  'machine learning engineering': 0 new deals
+[wob] search: 'mlops principles' -> 400 hits
+  'mlops principles': 166 new deals
+[wob] search: 'deploying ml models' -> 1 hits
+  'deploying ml models': 0 new deals
+[wob] search: 'ml system design' -> 2 hits
+  'ml system design': 0 new deals
+[wob] search: 'model monitoring' -> 6 hits
+  'model monitoring': 3 new deals
+[wob] search: 'time series forecasting book' -> 45 hits
+  'time series forecasting book': 15 new deals
+[wob] search: 'used forecasting textbooks' -> 400 hits
+  'used forecasting textbooks': 120 new deals
+[wob] search: 'arima model guide' -> 1 hits
+  'arima model guide': 0 new deals
+[wob] search: 'applied time series analysis' -> 6 hits
+  'applied time series analysis': 2 new deals
+[wob] search: 'forecasting principles practice' -> 2 hits
+  'forecasting principles practice': 0 new deals
+[wob] search: 'graph neural network' -> 2 hits
+  'graph neural network': 0 new deals
+[wob] search: 'gnn architectures' -> 400 hits
+  'gnn architectures': 74 new deals
+[wob] search: 'graph attention networks' -> 400 hits
+  'graph attention networks': 181 new deals
+[wob] search: 'spectral graph convolution' -> 400 hits
+  'spectral graph convolution': 10 new deals
+[wob] search: 'message passing neural network' -> 400 hits
+  'message passing neural network': 42 new deals
+[wob] search: 'causal inference experiments' -> 1 hits
+  'causal inference experiments': 1 new deals
+[wob] search: 'randomised control trial' -> 400 hits
+  'randomised control trial': 170 new deals
+[wob] search: 'instrumental variable analysis' -> 400 hits
+  skip 'analysis-of-categorical-data-with-r-book-thomas-lo': 404 Client Error: Not Found for url: https://www.worldofbooks.com/products/analysis-of-categorical-data-with-r-book-thomas-loughin-9780367553234.js
+  'instrumental variable analysis': 157 new deals
+[wob] search: 'counterfactual outcome modelling' -> 400 hits
+  'counterfactual outcome modelling': 77 new deals
+[wob] search: 'a b test design' -> 2 hits
+  'a b test design': 0 new deals
+[tb] search: 'machine learning' -> 50 hits
+  'machine learning': 0 new deals
+[tb] search: 'deep learning' -> 50 hits
+  'deep learning': 0 new deals
+[tb] search: 'neural networks' -> 50 hits
+  'neural networks': 7 new deals
+[tb] search: 'artificial intelligence' -> 50 hits
+  'artificial intelligence': 8 new deals
+[tb] search: 'natural language processing' -> 50 hits
+  'natural language processing': 5 new deals
+[tb] search: 'computer vision' -> 50 hits
+  'computer vision': 6 new deals
+[tb] search: 'reinforcement learning' -> 50 hits
+  'reinforcement learning': 0 new deals
+[tb] search: 'transformers' -> 50 hits
+  'transformers': 7 new deals
+[tb] search: 'data science' -> 50 hits
+  'data science': 7 new deals
+[tb] search: 'pytorch' -> 50 hits
+  'pytorch': 0 new deals
+[tb] search: 'tensorflow' -> 50 hits
+  'tensorflow': 3 new deals
+[tb] search: 'machine learning with python' -> 50 hits
+  'machine learning with python': 2 new deals
+[tb] search: 'python machine learning' -> 50 hits
+  'python machine learning': 1 new deals
+[tb] search: 'ai' -> 50 hits
+  'ai': 8 new deals
+[tb] search: 'statistical learning' -> 50 hits
+  'statistical learning': 4 new deals
+[tb] search: 'bayesian' -> 50 hits
+  'bayesian': 4 new deals
+[tb] search: 'mathematics for machine learning' -> 50 hits
+  'mathematics for machine learning': 1 new deals
+[tb] search: 'programming pytorch' -> 10 hits
+  'programming pytorch': 0 new deals
+[tb] search: 'transformer architecture' -> 17 hits
+  'transformer architecture': 1 new deals
+[tb] search: 'large language models' -> 50 hits
+  'large language models': 0 new deals
+[tb] search: 'attention mechanism' -> 12 hits
+  'attention mechanism': 1 new deals
+[tb] search: 'neural machine translation' -> 2 hits
+  'neural machine translation': 0 new deals
+[tb] search: 'language model pretraining' -> 1 hits
+  'language model pretraining': 0 new deals
+[tb] search: 'denoising diffusion probabilistic models' -> 0 hits
+  'denoising diffusion probabilistic models': 0 new deals
+[tb] search: 'stable diffusion guide' -> 4 hits
+  'stable diffusion guide': 0 new deals
+[tb] search: 'score based generative modeling' -> 0 hits
+  'score based generative modeling': 0 new deals
+[tb] search: 'latent diffusion model book' -> 0 hits
+  'latent diffusion model book': 0 new deals
+[tb] search: 'generative ai with diffusion' -> 13 hits
+  'generative ai with diffusion': 0 new deals
+[tb] search: 'markov decision processes' -> 21 hits
+  'markov decision processes': 0 new deals
+[tb] search: 'deep reinforcement learning' -> 50 hits
+  'deep reinforcement learning': 2 new deals
+[tb] search: 'policy gradient methods' -> 2 hits
+  'policy gradient methods': 0 new deals
+[tb] search: 'q learning' -> 50 hits
+  'q learning': 3 new deals
+[tb] search: 'computer vision algorithms' -> 31 hits
+  'computer vision algorithms': 1 new deals
+[tb] search: 'image processing textbook' -> 3 hits
+  'image processing textbook': 0 new deals
+[tb] search: 'opencv python guide' -> 4 hits
+  'opencv python guide': 0 new deals
+[tb] search: 'deep learning vision' -> 50 hits
+  'deep learning vision': 0 new deals
+[tb] search: 'pattern recognition machine' -> 50 hits
+  'pattern recognition machine': 1 new deals
+[tb] search: 'image processing fundamentals' -> 24 hits
+  'image processing fundamentals': 2 new deals
+[tb] search: 'deep learning for vision' -> 18 hits
+  'deep learning for vision': 2 new deals
+[tb] search: 'multiple view geometry' -> 2 hits
+  'multiple view geometry': 0 new deals
+[tb] search: 'opencv programming guide' -> 1 hits
+  'opencv programming guide': 0 new deals
+[tb] search: 'text mining' -> 49 hits
+  'text mining': 3 new deals
+[tb] search: 'speech recognition' -> 49 hits
+  'speech recognition': 3 new deals
+[tb] search: 'machine translation' -> 49 hits
+  'machine translation': 2 new deals
+[tb] search: 'computational linguistics' -> 50 hits
+  'computational linguistics': 2 new deals
+[tb] search: 'bayesian data analysis' -> 23 hits
+  'bayesian data analysis': 3 new deals
+[tb] search: 'probabilistic programming' -> 13 hits
+  'probabilistic programming': 1 new deals
+[tb] search: 'markov chain monte carlo' -> 16 hits
+  'markov chain monte carlo': 1 new deals
+[tb] search: 'bayesian hierarchical models' -> 12 hits
+  'bayesian hierarchical models': 0 new deals
+[tb] search: 'stan modeling language' -> 1 hits
+  'stan modeling language': 0 new deals
+[tb] search: 'machine learning engineering' -> 50 hits
+  'machine learning engineering': 1 new deals
+[tb] search: 'mlops principles' -> 0 hits
+  'mlops principles': 0 new deals
+[tb] search: 'deploying ml models' -> 9 hits
+  'deploying ml models': 0 new deals
+[tb] search: 'ml system design' -> 17 hits
+  'ml system design': 0 new deals
+[tb] search: 'model monitoring' -> 50 hits
+  'model monitoring': 0 new deals
+[tb] search: 'time series forecasting book' -> 50 hits
+  'time series forecasting book': 7 new deals
+[tb] search: 'used forecasting textbooks' -> 0 hits
+  'used forecasting textbooks': 0 new deals
+[tb] search: 'arima model guide' -> 0 hits
+  'arima model guide': 0 new deals
+[tb] search: 'applied time series analysis' -> 19 hits
+  'applied time series analysis': 1 new deals
+[tb] search: 'forecasting principles practice' -> 4 hits
+  'forecasting principles practice': 0 new deals
+[tb] search: 'graph neural network' -> 35 hits
+  'graph neural network': 0 new deals
+[tb] search: 'gnn architectures' -> 1 hits
+  'gnn architectures': 0 new deals
+[tb] search: 'graph attention networks' -> 1 hits
+  'graph attention networks': 0 new deals
+[tb] search: 'spectral graph convolution' -> 0 hits
+  'spectral graph convolution': 0 new deals
+[tb] search: 'message passing neural network' -> 0 hits
+  'message passing neural network': 0 new deals
+[tb] search: 'causal inference experiments' -> 1 hits
+  'causal inference experiments': 0 new deals
+[tb] search: 'randomised control trial' -> 5 hits
+  'randomised control trial': 0 new deals
+[tb] search: 'instrumental variable analysis' -> 0 hits
+  'instrumental variable analysis': 0 new deals
+[tb] search: 'counterfactual outcome modelling' -> 0 hits
+  'counterfactual outcome modelling': 0 new deals
+[tb] search: 'a b test design' -> 17 hits
+  'a b test design': 2 new deals
+done: 1853 new deals, 10950 total tracked
+watcher done
