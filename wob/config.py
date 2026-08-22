@@ -36,8 +36,6 @@ class Config:
     polite_wait_lo: float = 0.25
     polite_wait_hi: float = 0.60
 
-    _HOME: dataclasses.InitVar = pathlib.Path()
-
     def __post_init__(self):
         self.data_dir = pathlib.Path(self.data_dir)  # ensure Path
         if self.min_off_default < 0 or self.min_off_default > 1:

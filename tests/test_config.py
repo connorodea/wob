@@ -23,7 +23,6 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(cfg.wob_email, "a@b.c")
         self.assertEqual(cfg.data_dir, pathlib.Path("/tmp/wob-data"))
         self.assertAlmostEqual(cfg.min_off_default, 0.80)
-        cfg.validate() if hasattr(cfg, "validate") else None
 
     def test_missing_creds_exits(self):
         with mock.patch.dict(os.environ, {}, clear=True):
