@@ -1,8 +1,13 @@
 import json
+from datetime import datetime, timezone
 
 from .curated import match_quality
 from .picker import pick_best
 from .session import BASE, fetch
+
+
+def _utcnow_iso():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def fetch_product(handle):
@@ -11,7 +16,11 @@ def fetch_product(handle):
 
 
 def new_reference_price(product):
-    prices = [v["price"] for v in product.get("variants", []) if v.get("option2") == "NEW" and v["price"] > 0]
+    prices = [
+        v["price"]
+        for v in product.get("variants", [])
+        if v.get("option2") == "NEW" and v["price"] > 0
+    ]
     return min(prices) / 100.0 if prices else None
 
 
@@ -50,8 +59,8 @@ def deal_candidates(product, min_off, ref):
                     "used_price": round(used, 2),
                     "pct_off": round(pct_off, 4),
                     "barcode": v.get("barcode") or "",
-            }
-        )
+                }
+            )
     return ref, candidates
 
 
@@ -97,5 +106,10 @@ def best_deal(product, min_off, meta=None):
         "list_price_us": meta.get("listPriceUs"),
         "rrp": meta.get("rrp"),
         "url": f"{BASE}/products/{product['handle']}?variant={best['variant_id']}",
+        "source_url": f"{BASE}/products/{product['handle']}.js",
+        "source_raw_ref": f"variant:{best['variant_id']}",
+        "retrieved_at": _utcnow_iso(),
+        "landed_cost_cents": int(round(best["used_price"] * 100)),
+        "shipping_unknown": True,
         "quality": match_quality(product.get("title", ""), product.get("handle", "")),
     }
