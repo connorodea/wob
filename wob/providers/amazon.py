@@ -8,8 +8,6 @@ data/provider_cache.json. Not in the default --sites list.
 
 import base64
 import json
-import os
-import pathlib
 import time
 
 import requests
@@ -24,18 +22,10 @@ CACHE_TTL = 24 * 3600
 
 
 def _load_creds():
-    env = os.environ.copy()
-    for p in (
-        pathlib.Path.home() / ".claude" / "skills" / "seo" / ".env",
-        pathlib.Path.home() / ".config" / "wob" / ".env",
-    ):
-        if p.is_file():
-            for line in p.read_text().splitlines():
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, _, v = line.partition("=")
-                    env.setdefault(k.strip(), v.strip().strip('"').strip("'"))
-    return env.get("DATAFORSEO_LOGIN", ""), env.get("DATAFORSEO_PASSWORD", "")
+    from ..config import load_config
+
+    cfg = load_config()
+    return cfg.dataforseo_login, cfg.dataforseo_password
 
 
 _LOGIN, _PASSWORD = _load_creds()

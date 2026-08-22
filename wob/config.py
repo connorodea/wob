@@ -16,11 +16,11 @@ import sys
 
 @dataclasses.dataclass
 class Config:
-    # --- required ---
-    wob_email: str
-    wob_password: str
+    # --- wob account (optional at load time; login enforces) ---
+    wob_email: str = ""
+    wob_password: str = ""
 
-    # --- optional ---
+    # --- optional provider keys ---
     scrapingbee_api_key: str = ""
     ebay_app_id: str = ""
     ebay_access_token: str = ""
@@ -40,9 +40,21 @@ class Config:
         if self.min_off_default < 0 or self.min_off_default > 1:
             raise SystemExit("wob: min_off_default must be in [0,1]")
 
+    @property
+    def has_wob_creds(self) -> bool:
+        return bool(self.wob_email and self.wob_password)
+
+    @property
+    def has_dataforseo_creds(self) -> bool:
+        return bool(self.dataforseo_login and self.dataforseo_password)
+
+    @property
+    def has_ebay_creds(self) -> bool:
+        return bool(self.ebay_app_id and self.ebay_access_token)
+
     @classmethod
-    def load(cls) -> Config:
-        return load_config()
+    def load(cls, strict_creds: bool = False) -> Config:
+        return load_config(strict_creds=strict_creds)
 
 
 ENV_FILE = pathlib.Path.home() / ".config" / "wob" / ".env"
@@ -63,11 +75,11 @@ def _read_env():
     return env
 
 
-def load_config() -> Config:
+def load_config(strict_creds: bool = False) -> Config:
     env = _read_env()
     wob_email = env.get("WOB_EMAIL", "").strip()
     wob_password = env.get("WOB_PASSWORD", "").strip()
-    if not wob_email or not wob_password:
+    if strict_creds and (not wob_email or not wob_password):
         print(
             f"wob: WOB_EMAIL and WOB_PASSWORD are required in {ENV_FILE} or environment",
             file=sys.stderr,

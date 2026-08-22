@@ -24,12 +24,20 @@ class TestConfig(unittest.TestCase):
         self.assertEqual(cfg.data_dir, pathlib.Path("/tmp/wob-data"))
         self.assertAlmostEqual(cfg.min_off_default, 0.80)
 
-    def test_missing_creds_exits(self):
+    def test_missing_creds_strict(self):
         with mock.patch.dict(os.environ, {}, clear=True):
             with mock.patch.object(C, "ENV_FILE", pathlib.Path("/nope")):
                 with mock.patch.object(C, "ALT_ENV", pathlib.Path("/nope")):
                     with self.assertRaises(SystemExit):
-                        C.load_config()
+                        C.load_config(strict_creds=True)
+
+    def test_missing_creds_lenient(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            with mock.patch.object(C, "ENV_FILE", pathlib.Path("/nope")):
+                with mock.patch.object(C, "ALT_ENV", pathlib.Path("/nope")):
+                    cfg = C.load_config(strict_creds=False)
+        self.assertFalse(cfg.has_wob_creds)
+        self.assertFalse(cfg.has_dataforseo_creds)
 
     def test_bad_min_off(self):
         env = {"WOB_EMAIL": "a@b.c", "WOB_PASSWORD": "x", "WOB_MIN_OFF": "2"}

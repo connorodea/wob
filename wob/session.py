@@ -87,7 +87,8 @@ def _fetch_via_scrapingbee(url, render=False):
         r.raise_for_status()
     except requests.RequestException as e:
         # never let the API key appear in error text
-        raise RuntimeError(f"ScrapingBee fallback failed ({e.response.status_code if e.response is not None else 'network'})") from None
+        code = e.response.status_code if e.response is not None else "network"
+        raise RuntimeError(f"ScrapingBee fallback failed ({code})") from None
     from types import SimpleNamespace
 
     return SimpleNamespace(text=r.text, content=r.content, status_code=r.status_code)
@@ -98,7 +99,10 @@ def polite_wait(lo=0.25, hi=0.6):
 
 
 def login():
-    env = load_env()
+    from .config import load_config
+
+    cfg = load_config(strict_creds=True)
+    env = {"WOB_EMAIL": cfg.wob_email, "WOB_PASSWORD": cfg.wob_password}
     fetch(
         f"{BASE}/account/login",
         method="POST",
