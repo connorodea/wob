@@ -1,0 +1,4 @@
+{"a":{"title":"The Elements of Statistical Learning","author":"Trevor Hastie"},"b":{"title":"Statistical Learning with Sparsity","author":"Trevor Hastie"},"true_class":"uncertain"}
+{"a":{"title":"Bayesian Data Analysis","author":"Andrew Gelman"},"b":{"title":"Bayesian Data Analysis in Ecology with Stan","author":"Andrew Gelman"},"true_class":"uncertain"}
+{"a":{"title":"Introduction to Linear Algebra","author":"Gilbert Strang"},"b":{"title":"Linear Algebra and Its Applications","author":"Gilbert Strang"},"true_class":"uncertain"}
+{"a":{"title":"Introduction to Algorithms","author":"Thomas Cormen"},"b":{"title":"Algorithms Unlocked","author":"Thomas Cormen"},"true_class":"uncertain"}

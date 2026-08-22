@@ -68,8 +68,27 @@ def resolve(a: dict, b: dict) -> dict:
             "evidence": sorted(isbns_a & isbns_b),
         }
 
-    # R3
+    # R3: differing ISBNs are NOT enough to call books different — different
+    # editions of the same work share no ISBN. Fall back to work identity.
     if isbns_a and isbns_b:
+        sim = _jaccard(_tokens(title_a, author_a), _tokens(title_b, author_b))
+        if sim >= STRONG_SIM:
+            return {
+                "class": "compatible",
+                "confidence": 0.8,
+                "explanation": "different ISBNs, same work by title+author",
+                "evidence": {
+                    "sim": round(sim, 3),
+                    "isbns": [sorted(isbns_a)[0], sorted(isbns_b)[0]],
+                },
+            }
+        if sim >= WEAK_SIM:
+            return {
+                "class": "uncertain",
+                "confidence": 0.55,
+                "explanation": "different ISBNs, partial title overlap",
+                "evidence": {"sim": round(sim, 3)},
+            }
         return {
             "class": "incompatible",
             "confidence": 0.9,
