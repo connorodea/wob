@@ -1,5 +1,6 @@
 import json
 import re
+from datetime import datetime, timezone
 from urllib.parse import quote
 
 from .curated import match_quality
@@ -8,6 +9,11 @@ from .picker import pick_best
 from .session import fetch, polite_wait
 
 TB_BASE = "https://www.thriftbooks.com"
+
+
+def _utcnow_iso():
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
+
 
 HIDDEN_RE = re.compile(r'tb-hiddenText">(.*?)</div>', re.S)
 TAG_RE = re.compile(r"<[^>]+>")
@@ -41,7 +47,9 @@ def search_results(query, max_pages, per_page=50):
     page = 1
     while page <= max_pages:
         body["page"] = page
-        r = fetch(f"{TB_BASE}/api/browse/Search", method="POST", data=json.dumps(body), headers=headers)
+        r = fetch(
+            f"{TB_BASE}/api/browse/Search", method="POST", data=json.dumps(body), headers=headers
+        )
         d = json.loads(r.text)
         works = d.get("works") or []
         for w in works:
@@ -174,5 +182,10 @@ def analyze(url, min_off, meta):
         "rrp": None,
         "format": best_block["format"],
         "url": url,
+        "source_url": url,
+        "source_raw_ref": f"tb:{meta.get('id') or ''}",
+        "retrieved_at": _utcnow_iso(),
+        "landed_cost_cents": int(round(best_pick["used_price"] * 100)),
+        "shipping_unknown": True,
         "quality": match_quality(title, slug + " " + meta.get("authors", "")),
     }
