@@ -41,9 +41,7 @@ class TestAuthors(unittest.TestCase):
 
 class TestPublishers(unittest.TestCase):
     def test_strips_legal(self):
-        self.assertEqual(
-            N.normalize_publisher("O'Reilly Media, Inc."), "o'reilly media"
-        )
+        self.assertEqual(N.normalize_publisher("O'Reilly Media, Inc."), "o'reilly media")
 
     def test_empty(self):
         self.assertEqual(N.normalize_publisher(""), "")
@@ -51,8 +49,7 @@ class TestPublishers(unittest.TestCase):
 
 class TestFormats(unittest.TestCase):
     def test_map(self):
-        self.assertEqual(N.normalize_format("Mass Market Paperback"),
-                         "mass_market_paperback")
+        self.assertEqual(N.normalize_format("Mass Market Paperback"), "mass_market_paperback")
         self.assertEqual(N.normalize_format("Kindle Edition"), "ebook")
         self.assertEqual(N.normalize_format("Hardcover"), "hardcover")
         self.assertEqual(N.normalize_format("Audible Audio"), "audiobook")
