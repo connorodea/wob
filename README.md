@@ -128,6 +128,10 @@ open in your Chrome. The workaround is a 30-second one-way cookie transplant:
 ThriftBooks has no equivalent open cart API used here — its deals export as
 URLs you open normally.
 
+## License
+
+Apache License 2.0 — see [LICENSE](LICENSE). Open source, community welcome.
+
 ## Boring details
 
 - Search: Algolia `shopify_products_us` via the theme's public key, 1000

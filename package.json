@@ -7,5 +7,5 @@
   "files": ["bin/", "scripts/", "wob/", "keywords.txt", "sets/", "requirements.txt", "README.md", "AGENTS.md"],
   "engines": { "node": ">=16" },
   "keywords": ["books", "deals", "textbooks", "isbn", "barcode", "price-comparison", "recommendation", "cli", "university"],
-  "license": "MIT"
+  "license": "Apache-2.0"
 }
