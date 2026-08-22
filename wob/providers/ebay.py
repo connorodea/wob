@@ -1,18 +1,18 @@
 """eBay Browse API provider. Disabled until EBAY_APP_ID / EBAY_ACCESS_TOKEN
 exist in ~/.config/wob/.env."""
 
-import os
 
-from ..session import load_env, polite_wait
+from ..config import load_config
+from ..session import polite_wait
 from .conditions import ebay_condition_map
 
 NAME = "ebay"
 API = "https://api.ebay.com/buy/browse/v1/item_summary/search"
 
-_env = load_env()
-_APP_ID = _env.get("EBAY_APP_ID") or os.environ.get("EBAY_APP_ID")
-_TOKEN = _env.get("EBAY_ACCESS_TOKEN") or os.environ.get("EBAY_ACCESS_TOKEN")
-ENABLED = bool(_APP_ID and _TOKEN)
+_env = load_config()
+_APP_ID = _env.ebay_app_id
+_TOKEN = _env.ebay_access_token
+ENABLED = _env.has_ebay_creds
 
 
 def ebay_find_query(isbn13, limit=10):
