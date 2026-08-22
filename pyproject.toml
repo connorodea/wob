@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wob"
+version = "0.1.0"
+description = "The ivy-league book radar: cross-web used-book price search, course packs, recommendations, alerts."
+readme = "README.md"
+requires-python = ">=3.13"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Connor O'Dea" }]
+keywords = ["books", "isbn", "deals", "price-comparison", "recommendation", "cli"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "requests>=2.31",
+    "isbnlib",
+    "pandas",
+    "matplotlib",
+    "ipython",
+    "google-auth",
+]
+
+[project.scripts]
+wob = "wob.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["wob*"]
