@@ -7,8 +7,10 @@ only carries what an agent would otherwise miss.
 
 ## Traps first
 
-- **Not a git repo.** No commits, branches, or PRs. Don't run git commands or attempt a git
-  workflow here.
+- **Git repo: private `connorodea/wob` on GitHub.** Commits go through the normal
+  branch flow (global rules). `data/` IS committed (scan harvest is valuable, files are
+  small) except `.scan.lock`, `*.bak-*`, and `provider_cache.json`. The npm tarball
+  (`*.tgz`) is ignored.
 - **No tests, no lint, no typecheck.** "Verification" means running the CLI and inspecting
   `data/` output. Don't look for a test suite.
 - **`wob viz` (without `--png`) drops into an interactive IPython shell and blocks.** Non-
