@@ -29,3 +29,8 @@ wob = "wob.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["wob*"]
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F"]

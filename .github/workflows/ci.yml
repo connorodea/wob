@@ -23,6 +23,12 @@ jobs:
       - name: schema + unit tests (no network)
         run: python -m unittest discover -s tests -v
 
+      - name: lint + format (typed core)
+        run: |
+          pip install --quiet ruff
+          ruff check wob/entities.py wob/config.py wob/log.py tests/
+          ruff format --check wob/entities.py wob/config.py wob/log.py tests/
+
       - name: data-integrity harness (no network)
         run: |
           mkdir -p data

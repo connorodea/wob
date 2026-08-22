@@ -12,7 +12,6 @@ import dataclasses
 import os
 import pathlib
 import sys
-from typing import Optional
 
 
 @dataclasses.dataclass
@@ -69,8 +68,10 @@ def load_config() -> Config:
     wob_email = env.get("WOB_EMAIL", "").strip()
     wob_password = env.get("WOB_PASSWORD", "").strip()
     if not wob_email or not wob_password:
-        print("wob: WOB_EMAIL and WOB_PASSWORD are required in "
-              f"{ENV_FILE} or environment", file=sys.stderr)
+        print(
+            f"wob: WOB_EMAIL and WOB_PASSWORD are required in {ENV_FILE} or environment",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     return Config(
@@ -81,7 +82,8 @@ def load_config() -> Config:
         ebay_access_token=env.get("EBAY_ACCESS_TOKEN", "").strip(),
         dataforseo_login=env.get("DATAFORSEO_LOGIN", "").strip(),
         dataforseo_password=env.get("DATAFORSEO_PASSWORD", "").strip(),
-        data_dir=env.get("WOB_DATA_DIR",
-                         str(pathlib.Path.home() / ".local" / "share" / "wob" / "data")),
+        data_dir=env.get(
+            "WOB_DATA_DIR", str(pathlib.Path.home() / ".local" / "share" / "wob" / "data")
+        ),
         min_off_default=float(env.get("WOB_MIN_OFF", "0.70")),
     )
