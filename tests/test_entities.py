@@ -139,6 +139,7 @@ class TestOpportunityScore(unittest.TestCase):
     def test_valid(self):
         E.OpportunityScore(
             score=0.81,
+            version="wos/1.0",
             inputs={"pct_off": 0.9},
             explanation="90% off, high relevance",
             computed_at="2026-08-23T00:00:00Z",
@@ -146,7 +147,23 @@ class TestOpportunityScore(unittest.TestCase):
 
     def test_requires_explanation(self):
         with self.assertRaises(ValueError):
-            E.OpportunityScore(score=0.5, inputs={}, explanation="   ", computed_at="x").validate()
+            E.OpportunityScore(
+                score=0.5,
+                version="wos/1.0",
+                inputs={},
+                explanation="   ",
+                computed_at="x",
+            ).validate()
+
+    def test_requires_version(self):
+        with self.assertRaises(ValueError):
+            E.OpportunityScore(
+                score=0.5,
+                version="",
+                inputs={},
+                explanation="x",
+                computed_at="x",
+            ).validate()
 
 
 class TestProvenance(unittest.TestCase):
