@@ -17,7 +17,7 @@ from .schedule import list_jobs as schedule_list
 from .schedule import remove as schedule_remove
 from .schedule import run_now as schedule_now
 from .search import iter_search_results
-from .session import login, logged_in, polite_wait
+from .session import login, polite_wait
 from .site_thriftbooks import analyze as tb_analyze
 from .site_thriftbooks import search_results as tb_search
 from .viz import cmd_viz
@@ -133,7 +133,7 @@ def _scan_wob(keywords, args, seen):
             try:
                 product = fetch_product(p["handle"])
                 deal = best_deal(product, args.min_off, meta=p["meta"])
-            except Exception as e:
+            except Exception:
                 print(f"    {T.paint('skip', 'rose')} {T.dim(p['handle'][:44])}")
                 continue
             seen.add(p["id"])
@@ -165,7 +165,7 @@ def _scan_tb(keywords, args, seen):
                 continue
             try:
                 deal = tb_analyze(w["url"], args.min_off, w["meta"])
-            except Exception as e:
+            except Exception:
                 print(f"    {T.paint('skip', 'rose')} {T.dim(str(w['id'])[:40])}")
                 continue
             seen.add(key)
@@ -445,7 +445,6 @@ def cmd_coursepack(args):
 def _web_lookup_missing(label):
     title = label.split(" (")[0]
     try:
-        import json as _json
         from wob.providers import openlibrary, googleshopping
         ol = openlibrary.search(title, limit=1)
         isbn = None

@@ -1,7 +1,6 @@
 """eBay Browse API provider. Disabled until EBAY_APP_ID / EBAY_ACCESS_TOKEN
 exist in ~/.config/wob/.env."""
 
-import json
 import os
 
 from ..session import load_env, polite_wait

@@ -9,7 +9,6 @@ dim hints, aligned figures. No ornamentation for its own sake.
 
 import os
 import sys
-import time
 
 _RESET = "\033[0m"
 

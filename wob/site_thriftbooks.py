@@ -5,7 +5,7 @@ from urllib.parse import quote
 from .curated import match_quality
 from .isbnutil import to13
 from .picker import pick_best
-from .session import BASE as WOB_BASE, fetch, polite_wait
+from .session import fetch, polite_wait
 
 TB_BASE = "https://www.thriftbooks.com"
 

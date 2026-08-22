@@ -1,7 +1,6 @@
 import http.cookiejar
 import pathlib
 import random
-import sys
 import time
 
 import requests
@@ -100,7 +99,7 @@ def polite_wait(lo=0.25, hi=0.6):
 
 def login():
     env = load_env()
-    r = fetch(
+    fetch(
         f"{BASE}/account/login",
         method="POST",
         data={
