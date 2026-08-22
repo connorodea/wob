@@ -1,0 +1,6 @@
+{"a":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"b":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"true_class":"exact"}
+{"a":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"b":{"title":"deep learning","author":"goodfellow, ian","isbn":"978-0262035613"},"true_class":"exact"}
+{"a":{"title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop","isbn":"9780387310732"},"b":{"title":"Pattern Recognition and Machine Learning","author":"Christopher M. Bishop","isbn":"9780387310732"},"true_class":"exact"}
+{"a":{"title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell","isbn":"9780134610993"},"b":{"title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell","isbn":"0134610997"},"true_class":"exact"}
+{"a":{"title":"The Elements of Statistical Learning","author":"Trevor Hastie","isbn":"9780387848570"},"b":{"title":"The Elements of Statistical Learning","author":"T. Hastie","isbn":"9780387848570"},"true_class":"exact"}
+{"a":{"title":"Reinforcement Learning: An Introduction","author":"Richard Sutton","isbn":"9780262039246"},"b":{"title":"Reinforcement Learning: An Introduction","author":"Richard S. Sutton","isbn":"9780262039246"},"true_class":"exact"}

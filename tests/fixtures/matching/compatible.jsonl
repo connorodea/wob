@@ -1,0 +1,5 @@
+{"a":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"b":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613","format":"ebook"},"true_class":"exact"}
+{"a":{"title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop"},"b":{"title":"Pattern Recognition and Machine Learning","author":"C. Bishop"},"true_class":"compatible"}
+{"a":{"title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell","isbn":"9780134610993"},"b":{"title":"Artificial Intelligence: A Modern Approach, Global Edition","author":"Stuart Russell","isbn":"9781292401133"},"true_class":"compatible"}
+{"a":{"title":"Computer Networking: A Top-Down Approach","author":"James Kurose","isbn":"9780136681557"},"b":{"title":"Computer Networking: A Top-Down Approach","author":"James Kurose","isbn":"9780135928523"},"true_class":"compatible"}
+{"a":{"title":"Introduction to Algorithms","author":"Thomas Cormen","isbn":"9780262033848"},"b":{"title":"Introduction to Algorithms","author":"Thomas H. Cormen","isbn":"9780262046305"},"true_class":"compatible"}

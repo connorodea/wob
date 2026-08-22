@@ -29,10 +29,18 @@ class TestExact(unittest.TestCase):
 
 
 class TestIncompatible(unittest.TestCase):
-    def test_different_isbns(self):
+    def test_different_isbns_same_work_is_compatible(self):
+        # editions of the same work share no ISBN — R3 falls back to work identity
         r = R.resolve(
             B("Deep Learning", "Ian Goodfellow", isbn13="9780262035613"),
             B("Deep Learning", "Ian Goodfellow", isbn13="9780596516499"),
+        )
+        self.assertEqual(r["class"], "compatible")
+
+    def test_different_isbns_different_work(self):
+        r = R.resolve(
+            B("Deep Learning", "Ian Goodfellow", isbn13="9780262035613"),
+            B("Natural Language Processing with Python", "Steven Bird", isbn13="9780596516499"),
         )
         self.assertEqual(r["class"], "incompatible")
 

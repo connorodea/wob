@@ -1,0 +1,9 @@
+{"a":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"b":{"title":"Natural Language Processing with Python","author":"Steven Bird","isbn":"9780596516499"},"true_class":"incompatible"}
+{"a":{"title":"Machine Learning","author":"Tom Mitchell"},"b":{"title":"Machine Learning for Hackers","author":"Drew Conway"},"true_class":"incompatible"}
+{"a":{"title":"Causal Inference in Statistics","author":"Judea Pearl"},"b":{"title":"The Book of Why","author":"Judea Pearl"},"true_class":"incompatible"}
+{"a":{"title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop"},"b":{"title":"Pattern Classification","author":"Richard Duda"},"true_class":"incompatible"}
+{"a":{"title":"Hands-On Machine Learning","author":"Aurelien Geron"},"b":{"title":"Hands-On Unsupervised Learning","author":"Ankur Patel"},"true_class":"incompatible"}
+{"a":{"title":"Deep Learning with Python","author":"Francois Chollet"},"b":{"title":"Deep Learning with PyTorch","author":"Eli Stevens"},"true_class":"incompatible"}
+{"a":{"title":"Probabilistic Graphical Models","author":"Daphne Koller"},"b":{"title":"Probabilistic Machine Learning","author":"Kevin Murphy"},"true_class":"incompatible"}
+{"a":{"title":"An Introduction to Statistical Learning","author":"Gareth James"},"b":{"title":"The Elements of Statistical Learning","author":"Trevor Hastie"},"true_class":"incompatible"}
+{"a":{"title":"Machine Learning","author":"Tom Mitchell"},"b":{"title":"Machine Learning: An Algorithmic Perspective","author":"Stephen Marsland"},"true_class":"incompatible"}
