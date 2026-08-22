@@ -9,3 +9,11 @@ snapshot: 2156 deals, 75 Q-tier
 wob track shipped: 15 re-priced, real drops detected (NLP book $7.89->$4.98)
 docs updated (README npm install, AGENTS theme/npm/data-dir/track notes)
 npm publish: still blocked on Connor npm login
+--- tick 2 at 2026-08-22 13:10:36 ---
+snapshot: 2156 deals, 75 Q-tier
+--- tick 3 at 2026-08-22 15:10:39 ---
+snapshot: 2156 deals, 75 Q-tier
+--- autonomy session start 2026-08-22 15:41:55 ---
+scope: M0 foundation (entities, pyproject, tests, CI) + verify/merge 50-unit ds4 wave
+stop: all scoped done | 3 no-progress iterations | budget/unverified-code gate
+gates: no unverified DeepSeek output lands; branch->PR->merge only; no purchases; no direct pushes

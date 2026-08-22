@@ -143,7 +143,6 @@ def check3():
         index.setdefault(key, []).append(row)
 
     sample = random.sample(records, min(5, len(records)))
-    ok = True
     for rec in sample:
         site = rec.get("site") or "wob"
         key = (site, str(rec.get("product_id", "")))
@@ -163,7 +162,6 @@ def check3():
                 hit = row
                 break
         if hit is None:
-            ok = False
             fail_short(
                 3, "csv sync",
                 f"spot-check miss for {key!r} title={rec.get('title', '')[:60]!r} "

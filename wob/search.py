@@ -1,6 +1,6 @@
 import json
 
-from .session import BASE, fetch
+from .session import fetch
 
 ALGOLIA_APP = "AR33G9NJGJ"
 ALGOLIA_KEY = "96c16938971ef89ae1d14e21494e2114"
