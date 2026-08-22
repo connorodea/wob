@@ -1,13 +1,13 @@
 #!/usr/bin/env python3.13
-"""wob_verify — non-destructive verification harness for the WorldofBooks `wob` CLI.
+"""wob_verify — non-destructive verification harness for the `wob` CLI.
 
-Runs against the REAL repo data under /Users/connorodea/Developer/WorldofBooks without
-modifying it (the only writes are the PNGs that `wob viz --png` itself produces as its
-normal behavior, plus throwaway temp dirs that are removed at the end).
+Runs against the REAL repo data (resolved relative to this file) without
+modifying it (the only writes are the PNGs that `wob viz --png` itself
+produces as its normal behavior, plus throwaway temp dirs removed at the end).
 
-Stdlib only. Run with the repo's venv python (needed for matplotlib/pandas imports):
+Stdlib only. Run with the repo's venv python (needed for matplotlib/pandas):
 
-    /Users/connorodea/Developer/WorldofBooks/.venv/bin/python3.13 wob_verify.py
+    .venv/bin/python3.13 scripts/wob_verify.py
 
 Exit code 0 when every check passes, 1 otherwise.
 """
@@ -25,7 +25,7 @@ import sys
 import tempfile
 from types import SimpleNamespace
 
-REPO = pathlib.Path("/Users/connorodea/Developer/WorldofBooks")
+REPO = pathlib.Path(__file__).resolve().parent.parent
 
 # Make `import wob` work regardless of the harness' own location / cwd.
 # (PYTHONPATH equivalent, set inside the script itself.)
