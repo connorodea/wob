@@ -61,5 +61,36 @@ class TestWosV1(unittest.TestCase):
         self.assertGreater(scarce.score, common.score)
 
 
+class TestComputeDealScores(unittest.TestCase):
+    def _row(self, **kw):
+        d = {
+            "title": "T",
+            "used_price": 5.0,
+            "pct_off": 0.9,
+            "condition": "VERY_GOOD",
+            "quality": False,
+        }
+        d.update(kw)
+        return d
+
+    def test_sorted_desc(self):
+        rows = [
+            self._row(title="cheap", used_price=1.0),
+            self._row(title="curated", used_price=3.0, quality=True, stock=2),
+        ]
+        out = S.compute_deal_scores(rows)
+        self.assertEqual(out[0][0]["title"], "curated")
+        self.assertGreaterEqual(out[0][1].score, out[1][1].score)
+
+    def test_budget_penalty(self):
+        row = self._row(used_price=80.0, quality=True)
+        a = S.compute_deal_scores([row], budget_cents=2000)[0][1]
+        b = S.compute_deal_scores([row], budget_cents=20000)[0][1]
+        self.assertGreater(b.score, a.score)
+
+    def test_skips_bad_rows(self):
+        self.assertEqual(S.compute_deal_scores([{"title": "no prices"}]), [])
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -42,6 +42,34 @@ def _clamp(x, lo=0.0, hi=1.0):
     return max(lo, min(hi, x))
 
 
+def compute_deal_scores(rows, budget_cents=None):
+    """Map deal records (deals.jsonl shape) to OpportunityScore rows.
+
+    Relevance proxy: quality flag (curated shelf) -> 0.85, else 0.35.
+    Match confidence: 1.0 for scanned records (they passed our pipeline).
+    Returns [(record, score), ...] sorted by score desc.
+    """
+    out = []
+    for r in rows:
+        try:
+            price = float(r["used_price"])
+            pct = float(r.get("pct_off") or 0)
+        except (KeyError, TypeError, ValueError):
+            continue
+        s = wos_v1(
+            relevance=0.85 if r.get("quality") else 0.35,
+            discount=pct,
+            condition=r.get("condition", "UNKNOWN"),
+            match_confidence=1.0,
+            landed_cents=int(round(price * 100)),
+            stock=r.get("stock"),
+            budget_cents=budget_cents,
+        )
+        out.append((r, s))
+    out.sort(key=lambda x: -x[1].score)
+    return out
+
+
 def _scarcity(stock):
     if stock is None:
         return 0.5  # neutral: unknown stock is not a signal
