@@ -10,6 +10,16 @@ from wob.entities import SCHEMA_VERSION
 
 
 class TestSchemaMarker(unittest.TestCase):
+    def setUp(self):
+        self._orig = {
+            name: getattr(D, name)
+            for name in ("DATA_DIR", "DEALS_JSONL", "STATE_JSON", "DEALS_CSV", "HISTORY_JSONL")
+        }
+
+    def tearDown(self):
+        for name, value in self._orig.items():
+            setattr(D, name, value)
+
     def test_append_writes_schema(self):
         with tempfile.TemporaryDirectory() as td:
             td = pathlib.Path(td)

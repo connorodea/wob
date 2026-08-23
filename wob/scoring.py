@@ -42,13 +42,15 @@ def _clamp(x, lo=0.0, hi=1.0):
     return max(lo, min(hi, x))
 
 
-def compute_deal_scores(rows, budget_cents=None):
+def compute_deal_scores(rows, budget_cents=None, profile=None):
     """Map deal records (deals.jsonl shape) to OpportunityScore rows.
 
-    Relevance proxy: quality flag (curated shelf) -> 0.85, else 0.35.
-    Match confidence: 1.0 for scanned records (they passed our pipeline).
-    Returns [(record, score), ...] sorted by score desc.
+    Relevance: user-profile affinity when a profile is given, else the
+    curated-shelf flag proxy (0.85/0.35). Match confidence: 1.0 for
+    scanned records. Returns [(record, score), ...] sorted by score desc.
     """
+    from .profile import affinity as profile_affinity
+
     out = []
     for r in rows:
         try:
@@ -56,8 +58,13 @@ def compute_deal_scores(rows, budget_cents=None):
             pct = float(r.get("pct_off") or 0)
         except (KeyError, TypeError, ValueError):
             continue
+        if profile is not None:
+            relevance, reasons = profile_affinity(profile, r.get("title", ""), r.get("author", ""))
+        else:
+            relevance = 0.85 if r.get("quality") else 0.35
+            reasons = []
         s = wos_v1(
-            relevance=0.85 if r.get("quality") else 0.35,
+            relevance=relevance,
             discount=pct,
             condition=r.get("condition", "UNKNOWN"),
             match_confidence=1.0,
@@ -65,6 +72,8 @@ def compute_deal_scores(rows, budget_cents=None):
             stock=r.get("stock"),
             budget_cents=budget_cents,
         )
+        if reasons:
+            s.explanation = f"{s.explanation} | {'; '.join(reasons)}"
         out.append((r, s))
     out.sort(key=lambda x: -x[1].score)
     return out
