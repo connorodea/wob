@@ -134,21 +134,34 @@ def _text_verdict(title_a, author_a, title_b, author_b):
             "evidence": {"cov": round(cov, 3)},
         }
 
-    # strong identity: real identifying title words, or (near-)identical
-    # titles from the same author (new edition / subtitle changes)
-    if len(distinctive) >= 2 or (cov >= 0.6 and distinctive and author_match and not extra):
+    # strong identity: real identifying title words AND matching author,
+    # or (near-)identical titles from the same author (edition/subtitle)
+    if len(distinctive) >= 2 and author_match:
         return {
             "class": "compatible",
-            "confidence": 0.85 if author_match else 0.7,
-            "explanation": "strong normalized title overlap"
-            + (" + matching author" if author_match else " (author unconfirmed)"),
+            "confidence": 0.85,
+            "explanation": "strong normalized title overlap + matching author",
             "evidence": {"cov": round(cov, 3), "distinctive": sorted(distinctive)[:5]},
+        }
+    if cov >= 0.6 and distinctive and author_match and not extra:
+        return {
+            "class": "compatible",
+            "confidence": 0.8,
+            "explanation": "title overlap + matching author (edition change)",
+            "evidence": {"cov": round(cov, 3)},
         }
     if cov >= 0.75 and author_match:
         return {
             "class": "compatible",
             "confidence": 0.8,
             "explanation": "identical/near-identical title + matching author",
+            "evidence": {"cov": round(cov, 3)},
+        }
+    if cov >= 0.75 and not author_match and max(len(ta), len(tb)) <= 3:
+        return {
+            "class": "uncertain",
+            "confidence": 0.5,
+            "explanation": "identical short titles, different authors",
             "evidence": {"cov": round(cov, 3)},
         }
 

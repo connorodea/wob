@@ -4,3 +4,12 @@
 {"a": {"title": "Clean Code", "author": "Robert Martin", "isbn": "9780132350884"}, "b": {"title": "Clean Architecture", "author": "Robert Martin", "isbn": "9780134494166"}, "true_class": "uncertain"}
 {"a": {"title": "An Introduction to Statistical Learning", "author": "Gareth James"}, "b": {"title": "The Elements of Statistical Learning", "author": "Trevor Hastie"}, "true_class": "uncertain"}
 {"a": {"title": "Pattern Recognition and Machine Learning", "author": "Christopher Bishop"}, "b": {"title": "Pattern Classification", "author": "Richard Duda"}, "true_class": "uncertain"}
+{"a": {"title": "The Mythical Man-Month", "author": "Frederick Brooks"}, "b": {"title": "The Mythical Man-Month: Essays", "author": "Unknown"}, "true_class": "uncertain"}
+{"a": {"title": "Refactoring", "author": "Martin Fowler"}, "b": {"title": "Refactoring Databases", "author": "Scott Ambler"}, "true_class": "uncertain"}
+{"a": {"title": "Domain-Driven Design", "author": "Eric Evans"}, "b": {"title": "Domain-Driven Design Distilled", "author": "Vaughn Vernon"}, "true_class": "uncertain"}
+{"a": {"title": "The Lean Startup", "author": "Eric Ries"}, "b": {"title": "Lean Analytics", "author": "Alistair Croll"}, "true_class": "uncertain"}
+{"a": {"title": "Zero to One", "author": "Peter Thiel"}, "b": {"title": "Zero to One", "author": ""}, "true_class": "uncertain"}
+{"a": {"title": "Zero to One", "author": "Peter Thiel", "isbn": "9780804139298"}, "b": {"title": "One to Zero", "author": "Rebecca Jones", "isbn": "9780804139299"}, "true_class": "uncertain"}
+{"a": {"title": "Introduction to Algorithms", "author": "Thomas Cormen"}, "b": {"title": "Algorithms", "author": "Robert Sedgewick"}, "true_class": "uncertain"}
+{"a": {"title": "The Design of Everyday Things", "author": "Don Norman", "isbn": "9780465050659"}, "b": {"title": "Emotional Design", "author": "Don Norman", "isbn": "9780465051367"}, "true_class": "uncertain"}
+{"a": {"title": "Domain-Driven Design", "author": "Eric Evans", "isbn": "9780321125217"}, "b": {"title": "Implementing Domain-Driven Design", "author": "Vaughn Vernon", "isbn": "9780321834577"}, "true_class": "uncertain"}
