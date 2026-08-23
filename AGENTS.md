@@ -1,112 +1,111 @@
 # WorldofBooks (`wob`) — agent guide
 
-Used-book deal scanner: finds ML/AI learning books on worldofbooks.com (Algolia + Shopify
-`.js`) and thriftbooks.com (public search API + HTML parsing) at ≥70% off the new-copy price.
-Deal math, commands, and the cart cookie transplant are documented in README.md — this file
-only carries what an agent would otherwise miss.
+Cross-web used-book deal engine for learning books: worldofbooks.com (Algolia + Shopify
+`.js`), thriftbooks.com (search API + HTML parse), plus Google Books / OpenLibrary /
+Google Shopping / eBay providers, recommendations, WOS scoring, and a web dashboard.
+Deal math, commands, and the cart cookie transplant are in README.md — this file carries
+what an agent would otherwise miss.
 
 ## Traps first
 
-- **Git repo: private `connorodea/wob` on GitHub.** Commits go through the normal
-  branch flow (global rules). `data/` IS committed (scan harvest is valuable, files are
-  small) except `.scan.lock`, `*.bak-*`, and `provider_cache.json`. The npm tarball
-  (`*.tgz`) is ignored.
-- **No tests, no lint, no typecheck.** "Verification" means running the CLI and inspecting
-  `data/` output. Don't look for a test suite.
-- **`wob viz` (without `--png`) drops into an interactive IPython shell and blocks.** Non-
-  interactive runs must use `wob viz --png`. Same for anything that embeds IPython.
-- **Networking is live and rate-limited.** Every scan hits real public endpoints (Algolia,
-  Shopify, ThriftBooks) with 0.25–0.6s polite waits. Keep scans small (`--term`, low
-  `--pages`/`--max-hits`) when testing; don't re-run full scans casually.
-- **`data/` is the resumable state.** `deals.jsonl` is append-only, `state.json` holds the
-  seen-ID set (`{"seen": [...]}`: bare ISBN13-or-product-id for wob, `tb:<idWork>` for tb),
-  `deals.csv` is rebuilt from the JSONL. Deleting `data/` wipes scan history. Scans are
-  walk-away safe: ids are marked seen only after their fetch succeeds, so Ctrl-C never
-  loses items. Never hand-edit `deals.jsonl`/`state.json` casually — a new field or bad
-  line affects `rebuild_csv` and dedupe.
+- **Git repo: PUBLIC `connorodea/wob`, Apache-2.0.** Branch → PR → merge only; never push
+  to main. **Merge only after CI is verifiably green** (`gh run watch --exit-status` first —
+  replacing a gate check with assume-green already bit us once, PR #12).
+- **Tests exist now.** `python -m unittest discover -s tests` (103 tests, all offline),
+  `scripts/wob_verify.py` (7 data-integrity checks), `scripts/eval.py` (benchmark runner +
+  append-only record at `docs/evals/benchmark-history.jsonl`). CI runs unit + ruff
+  (check + format) + the harness.
+- `data/` is committed (harvest is valuable, files small) except `.scan.lock`,
+  `*.bak-*`, `provider_cache.json`; the npm tarball `*.tgz` is ignored.
+- **`wob viz` (without `--png`) blocks in an IPython shell.** Non-interactive runs must use
+  `wob viz --png`.
+- **Networking is live and rate-limited** (0.25–0.6s polite waits). Keep test scans small
+  (`--term`, low `--pages`/`--max-hits`). Paid providers (`googleshopping`, `amazon`) are
+  NOT in default `--sites`; each uncached lookup costs ~$0.002, cached 24h.
+- `data/` is the resumable state: `deals.jsonl` append-only, `state.json` seen-set
+  (bare ISBN13-or-product-id for wob, `tb:<idWork>` for tb), `deals.csv` rebuilt from the
+  JSONL. Ids are marked seen only after fetch succeeds (Ctrl-C safe). Never hand-edit
+  `deals.jsonl`/`state.json`.
 
 ## Run / verify
 
-- Entry point is the shim `~/.local/bin/wob` — it hardcodes the repo path and
-  `$HOME/Developer/WorldofBooks/.venv/bin/python3.13`. From the repo root:
-  `PYTHONPATH=. .venv/bin/python3.13 -m wob` is equivalent.
-- **Python is 3.13 specifically** (shim hardcodes `python3.13` in the venv path). Create the
-  venv with `python3.13 -m venv .venv`.
-- Quick non-destructive checks: `wob deals --top 5`, `wob viz --png`, `wob schedule list`,
-  `wob cart --show`.
-- A one-off test scan: `wob scan --term "some term" --sites wob --pages 1 --max-hits 50`.
+- Shim `~/.local/bin/wob` → repo path + `.venv/bin/python3.13`. Equivalent:
+  `PYTHONPATH=. .venv/bin/python3.13 -m wob`. Python 3.13 specifically.
+- Quick checks: `wob deals --top 5`, `wob viz --png`, `wob coursepack list`,
+  `wob app --port 8765` (dashboard, serves static files live per request).
+- One-off scan: `wob scan --term "some term" --sites wob --pages 1 --max-hits 50`.
 
 ## Environment / config (outside the repo)
 
-- Credentials: `~/.config/wob/.env` → `WOB_EMAIL`, `WOB_PASSWORD`, plus optional
-  `SCRAPINGBEE_API_KEY`. Never commit or print these.
-- Session cookie jar: `~/.config/wob/jar.txt` (MozillaCookieJar, saved after login/cart-add).
-  `wob login` raises `KeyError` if the `.env` keys are missing — that's the diagnosis when
-  login dies immediately.
-- ScrapingBee is only a fallback for **GET** requests: `session.fetch` retries 5xx up to 3×,
-  then on 429/430/403 a GET fails over to ScrapingBee. Other 4xx (e.g. 404) raise
-  immediately. POSTs (Algolia, TB search, login, cart writes) can't be replayed by
-  ScrapingBee, so blocked POSTs raise `RuntimeError`. Without the key, blocked GETs raise.
+- Creds in `~/.config/wob/.env` (WOB_EMAIL/WOB_PASSWORD + optional SCRAPINGBEE_API_KEY,
+  EBAY_APP_ID/EBAY_ACCESS_TOKEN; DataForSEO login/password live in
+  `~/.claude/skills/seo/.env`). Never commit or print.
+- Loaded through `wob/config.py` (`load_config(strict_creds=...)`) — the single validation
+  path after M0. `wob login` is the strict consumer.
+- Session cookie jar: `~/.config/wob/jar.txt` (MozillaCookieJar).
+- ScrapingBee fallback is GET-only (session.py): 5xx retry ×3; 429/430/403 GET fallback;
+  POSTs cannot be replayed → RuntimeError. Other 4xx raise immediately.
+- Service-account key `~/.config/wob/gsheets-sa.json` exists but is unused: the Google
+  Sheets tracker was cancelled — the repo (`docs/ROADMAP.md`) is the tracker. Sheets API
+  refuses service accounts for consumer accounts anyway.
 
-## Module map (`wob/`)
+## Intelligence layer (the ML-adjacent modules — all deterministic, all baseline-first)
 
-- `cli.py` — argparse subcommands; owns the `.scan.lock` pidfile (PID-liveness checked via
-  `os.kill(pid, 0)`, so stale locks self-clear; a live lock makes a second scan exit with
-  "another scan is already running").
-- `session.py` — requests session, cookie jar, `fetch` retry/fallback, `login`, `polite_wait`.
-- `search.py` — WoB discovery via the theme's public Algolia index (`shopify_products_us`),
-  max 1000 hits/request.
-- `products.py` — exact pricing from Shopify `/products/<handle>.js`; reference price =
-  cheapest `option2 == "NEW"` variant. Deal URL is `...?variant=<variant_id>`.
-- `picker.py` — condition tie-break: among candidates within $1.50 or 15% of the cheapest,
-  best condition wins (priority map NEW > LIKE_NEW > VERY_GOOD > GOOD > WELL_READ >
-  ACCEPTABLE).
-- `site_thriftbooks.py` — `POST /api/browse/Search` (50/page) + **fragile regex parsing** of
-  `tb-hiddenText` divs in `_parse_page`. If TB changes markup it silently yields no blocks
-  and no deals — treat tb deal count dropping to zero as a parser issue first.
-- `deals.py` — JSONL append (dedupe on `(site, isbn13-or-product_id)` for wob, `product_id`
-  for tb), CSV rebuild, scan state.
-- `curated.py` — ~90-title "great books to learn from" list; `match_quality` normalizes
-  title+handle to tokens and AND-matches author-title keyword tuples. Deals with `quality`
-  true are the `Q` tier.
-- `cart.py` — WoB Shopify cart API only (tb deals have no `variant_id`; `cart --add` filters
-  `site == "wob"`). Adds sleep 4s between items; 429 backs off exponentially.
-  `clear_session_cart` POSTs `/cart/change.js` per line item (same backoff, raises if
-  still blocked, skips items without a `key`).
-- `schedule.py` — launchd agents `com.connorodea.wob-scan.<name>` in
-  `~/Library/LaunchAgents/`; logs to `data/logs/<name>.log` / `<name>.err.log`.
-- `viz.py` — pandas DF over deals, 3 PNGs in `data/`, then IPython unless `--png`.
-- `theme.py` — all CLI color/formatting (frames, badges, score bars). Auto-disabled when
-  stdout isn't a TTY; force with `WOB_COLOR=1`, kill with `NO_COLOR`. Never hardcode
-  ANSI in command code — go through `theme` (import as `T`).
-- `recommend.py` — taste adjacency: curated title-phrase similarity + course-pack
-  co-membership, discounted-price boost. `coursepacks.py` — 35 built-in course catalogs,
-  each references curated token tuples.
-- `alerts.py` — `wob alerts`: price drops (from history) + sub-$10 Q-tier screams;
-  `--notify` dedupes against `data/alerts_state.json` and fires a desktop ping.
-  `wob track` re-prices tracked wob books and appends history snapshots (only wob rows —
-  tb rows skip). `wob history` reads `data/history.jsonl` and lists drops.
-- **npm packaging lives at the repo root** (`package.json`, `bin/wob.js`,
-  `scripts/install.js`, `LICENSE`, `.npmignore`). The package ships `wob/` and bootstraps
-  `~/.wob-venv` on postinstall. Debris never ships: keep `files` whitelist + clear
-  `__pycache__` before `npm pack`.
-- **Data-dir relocation**: `deals.py` moves `DATA_DIR` to `~/.local/share/wob/data` when
-  the package dir isn't writable (or `WOB_DATA_DIR`). Never assume `data/` sits next to
-  the package.
-- `isbnutil.py` — ISBN/barcode normalization (10↔13, EAN-13 checksum) via `isbnlib`.
-- `providers/` — cross-web search registry: each module exposes `NAME`, `ENABLED`,
-  `lookup(isbn13) -> dict`, optional `search(term)`. `googlebooks` = retail anchor,
-  `openlibrary` = metadata/editions (no prices), `googleshopping` = Google Shopping
-  via DataForSEO Merchant API (uses seo-skill creds, paid per task_post ~$0.002,
-  cached 24h in `data/provider_cache.json`, title-anchored keyword required),
-  `ebay` = marketplace (needs `EBAY_APP_ID`+`EBAY_ACCESS_TOKEN` in
-  `~/.config/wob/.env`). `conditions.py` maps each marketplace's vocabulary to the
-  canonical condition set.
+- `entities.py` — 13 versioned dataclasses (BookWork…PredictionProvenance), `validate()` /
+  `to_dict()` / `from_dict()`; `SCHEMA_VERSION = "entities/1.0"`; canonical condition +
+  purchase-mode vocabularies. Every new persistent field needs a schema story.
+- `normalize.py` — pure title/author/publisher/format/language/date/currency
+  normalization. Titles KEEP subtitles (colon-strip destroyed identifying words — the
+  resolver calibration proved it).
+- `resolver.py` — M2 baseline: R1/R2 shared ISBN = exact; R3 differing ISBNs fall back to
+  work identity (editions share no ISBN); distinctive-token coverage + author gate →
+  compatible/uncertain/incompatible. Never relabel as exact on ambiguity. Labeled eval:
+  `tests/fixtures/matching/*.jsonl` (59 pairs, baseline 1.0 all classes — an embedding
+  model must beat this before replacing any rule).
+- `pricing.py` — landed cost (strict int cents), discount (None when reference can't
+  anchor), cheapest-by-landed.
+- `fairprice.py` — median/p25/p75 per (identity, condition) with abstention below 3
+  offers; `deal_signal` classifies vs market quartiles.
+- `scoring.py` — `wos_v1(...)` transparent weighted score (version `wos/1.0`,
+  feature-level explanation) + `compute_deal_scores(rows)`. `woseval.py` compares WOS vs
+  lowest-price on `tests/fixtures/deal_quality/*.jsonl` (WOS NDCG@8 0.995 vs 0.486).
+- `profile.py` — M4: `build_profile` → UserProfile; `affinity()` = interest/author token
+  overlap with readable reasons. All deterministic; embeddings/bandits are future work
+  that must beat recorded baselines.
+- `recommend.py` (seed-based recs), `coursepacks.py` (40 catalogs), `curated.py` (192
+  titles, `Q` tier), `alerts.py` + `track`/`history` (price drops), `webapp.py` +
+  `webapp_static/index.html` (stdlib server + vanilla SPA; palette = booksnob black/
+  white/baby-blue/teal; logo asset `booksnob.png`).
+- `theme.py` — all CLI color/formatting (auto-off when piped; `WOB_COLOR=1` forces,
+  `NO_COLOR` kills). Never hardcode ANSI in commands — use `theme as T`.
 
-## Conventions specific to this repo
+## Subagent / parallel-lane policy (Connor's directive, 2026-08-22)
 
-- All money in cents in JSON (Shopify), converted to dollars (÷100) in deal records.
-- Condition strings are a canonical set shared by both sites (`NEW`, `LIKE_NEW`, ...).
-- `--min-off` default 0.70 everywhere; deal floor shown in `viz_discount_hist.png`.
-- Both sites' records add `pct_off = 1 − used/new`; `Q`/quality is additive metadata, never
-  part of the price filter.
+- **ALL agents run `deepseek/deepseek-v4-flash-0731` via OpenRouter** — main session,
+  subagent launches (Task tool), and the `llm` CLI fan-out lane. Applied idempotently by
+  the `deepseek-v4-flash` skill (`~/.claude/skills/deepseek-v4-flash/scripts/switch.sh`,
+  `verify.sh`). Model id is the 0731 snapshot, NOT the rolling `deepseek-v4-flash` alias.
+- **No token caps on llm calls** (Connor's ruling, 2026-08-22) — do not add `-o
+  max_tokens`, and remove caps wherever seen.
+- Flash returns empty completions ~half the time on some prompts — retry 3–4× with a
+  byte-size check, hand-write the survivors; don't burn credits re-prompting endlessly.
+- `$DEEPSEEK_AGENT_MODEL` and `$OPENROUTER_API_KEY` live in `~/.zshrc`. Claude Code routes
+  via `ANTHROPIC_BASE_URL=https://openrouter.ai/api` (no `/v1`) + `ANTHROPIC_AUTH_TOKEN`.
+
+## Site-collector layer (original scanner)
+
+- `search.py` (WoB Algolia, 1000-hit cap), `products.py` (Shopify `.js`; NEW-variant or
+  list-price reference; per-variant candidates), `picker.py` ($1.50/15% tie-break),
+  `site_thriftbooks.py` (**fragile** `tb-hiddenText` regex — tb count → 0 means check the
+  parser first), `deals.py` (append/dedupe identity `_identity_key` = isbn13-or-product_id
+  for wob, product_id for tb; `_schema` stamped on new records), `cart.py` (Shopify cart
+  writes with 429 backoff), `schedule.py` (launchd), `providers/` (registry + health()).
+
+## Conventions
+
+- Money: cents in JSON, dollars in deal records; canonical condition set everywhere;
+  `--min-off` default 0.70; `pct_off = 1 − used/new`; `Q` is additive metadata.
+- npm package `wob-cli` at repo root (`package.json`, `bin/wob.js`, `scripts/install.js`).
+  Clear `__pycache__` before `npm pack`; publish flow requires a write-scoped granular npm
+  token (classic tokens 403 for new packages).
+- `DATA_DIR` relocates to `~/.local/share/wob/data` when the package dir is read-only.
