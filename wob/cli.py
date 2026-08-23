@@ -792,6 +792,25 @@ def cmd_watch(args):
         for h in hits:
             if not h["found"]:
                 print(f"  {T.paint('·', 'dim')}  {h['isbn']}  {T.dim('not found locally')}")
+        if args.notify:
+            from . import alerts as alerts_mod
+
+            fresh = alerts_mod.new_since_last(
+                [
+                    {
+                        "kind": "watch",
+                        "title": h["isbn"],
+                        "price": h["price"],
+                        "prev": None,
+                        "pct_off": None,
+                        "site": "wob",
+                        "url": h.get("url", ""),
+                    }
+                    for h in found
+                    if h["within_budget"]
+                ]
+            )
+            alerts_mod.notify(fresh)
         return
 
 
@@ -919,7 +938,12 @@ def main():
     pw.add_parser("list")
     pr = pw.add_parser("remove")
     pr.add_argument("identity", help="watch id or ISBN")
-    pw.add_parser("check", help="match against the scanned shelf")
+    pc = pw.add_parser("check", help="match against the scanned shelf")
+    pc.add_argument(
+        "--notify",
+        action="store_true",
+        help="desktop ping for NEW qualifying hits since last check",
+    )
     p.set_defaults(func=cmd_watch)
 
     p = sub.add_parser(
