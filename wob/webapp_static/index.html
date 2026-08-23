@@ -6,22 +6,22 @@
 <title>wob — the book radar</title>
 <style>
 :root{
-  /* refero-informed: paper canvas, ink serif, single forest accent, marker
-     highlights, black pills, hairline rows — museum-catalog calm */
-  --paper:#faf8f2; --sheet:#fffefb; --ink:#1a1711; --mute:#8d8572;
-  --hair:rgba(26,23,17,.16); --forest:#1f6b3d; --forest-soft:#eaf2ea;
-  --marker:#f4e79e; --marker-soft:rgba(244,231,158,.45);
-  --rose:#a3372f; --rose-soft:#f6e8e6; --black:#17140f;
+  /* black · white · baby blue (+ teal) — booksnob palette */
+  --paper:#ffffff; --sheet:#ffffff; --ink:#0d0d10; --mute:#6d6d78;
+  --hair:rgba(13,13,16,.14);
+  --baby:#a9d6f5; --baby-soft:#eaf5fd; --baby-deep:#4a90c4;
+  --teal:#17b3a6; --teal-soft:#dff5f2; --teal-deep:#0e7d74;
+  --rose:#c2453b; --rose-soft:#f7e7e5;
   --serif:"Bodoni 72","Iowan Old Style",Palatino,Georgia,serif;
   --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;
   --mono:"SF Mono",ui-monospace,Menlo,monospace;
   --r:0px;
 }
 @media (prefers-color-scheme: dark){
-  :root{--paper:#100e0a; --sheet:#17140e; --ink:#eee8db; --mute:#96907d;
-    --hair:rgba(238,232,219,.16); --forest:#8cc79d; --forest-soft:#1c2b1f;
-    --marker:#3a3213; --marker-soft:rgba(216,178,74,.25); --rose:#e0938b;
-    --rose-soft:#2f1d1a; --black:#eee8db;}
+  :root{--paper:#0b0b0e; --sheet:#101014; --ink:#f2f2f6; --mute:#8d8d9a;
+    --hair:rgba(242,242,246,.16); --baby:#7fb8e0; --baby-soft:#12202c;
+    --baby-deep:#a9d6f5; --teal:#3fd0c2; --teal-soft:#0d2b28;
+    --teal-deep:#8fe6dc; --rose:#e08f87; --rose-soft:#2e1b19;}
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -30,7 +30,7 @@ body{margin:0;background:var(--paper);color:var(--ink);
 .wrap{max-width:1060px;margin:0 auto;padding:34px 22px 90px}
 header{text-align:center;padding-bottom:26px;border-bottom:1px solid var(--hair)}
 .brand{font-family:var(--serif);font-size:44px;font-weight:600;letter-spacing:.02em}
-.brand em{font-style:italic;color:var(--forest)}
+.brand em{font-style:italic;color:var(--teal)}
 .motto{color:var(--mute);font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;margin-top:6px}
 .stats{display:flex;justify-content:center;gap:26px;margin-top:16px;
   font-family:var(--mono);font-size:12px;color:var(--mute)}
@@ -40,43 +40,43 @@ nav button{background:none;border:none;padding:8px 16px;cursor:pointer;
   font-family:var(--sans);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--mute);border-bottom:2px solid transparent}
 nav button:hover{color:var(--ink)}
-nav button.on{color:var(--ink);border-bottom-color:var(--forest)}
+nav button.on{color:var(--ink);border-bottom-color:var(--teal)}
 main{margin-top:26px}
 .section-head{font-family:var(--serif);font-size:21px;margin:26px 0 10px}
 .section-sub{color:var(--mute);font-size:13px;margin:-6px 0 14px}
 .row{display:flex;align-items:center;gap:14px;padding:10px 2px;border-bottom:1px solid var(--hair)}
 .row:last-child{border-bottom:none}
 .qstar{width:18px;text-align:center}
-.qstar .m{background:var(--marker-soft);border-radius:3px;padding:0 4px;border:1px solid var(--marker)}
+.qstar .m{background:var(--baby-soft);border-radius:3px;padding:0 4px;border:1px solid var(--baby)}
 .pct{font-family:var(--mono);font-weight:600;font-size:13px;min-width:50px;color:var(--ink)}
 .bar{width:56px;height:5px;border-radius:999px;background:var(--hair);overflow:hidden}
-.bar i{display:block;height:100%;background:var(--forest)}
-.price{font-family:var(--mono);min-width:70px;text-align:right;font-weight:600;color:var(--forest)}
+.bar i{display:block;height:100%;background:var(--teal)}
+.price{font-family:var(--mono);min-width:70px;text-align:right;font-weight:600;color:var(--teal)}
 .was{font-family:var(--mono);color:var(--mute);font-size:12px;text-decoration:line-through;min-width:60px;text-align:right}
 .cond{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--mute);min-width:96px;white-space:nowrap}
-.cond.NEW,.cond.LIKE_NEW,.cond.VERY_GOOD{color:var(--forest)}
+.cond.NEW,.cond.LIKE_NEW,.cond.VERY_GOOD{color:var(--teal)}
 .cond.GOOD,.cond.WELL_READ{color:#9a7b1d}
 .cond.ACCEPTABLE{color:var(--rose)}
 .site{font-family:var(--mono);font-size:11px;color:var(--mute);min-width:34px}
 .title{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .title small{color:var(--mute);margin-left:8px}
-a{color:var(--forest);text-decoration:none}
+a{color:var(--teal);text-decoration:none}
 a.btn{display:inline-block;border:1px solid var(--hair);border-radius:999px;
   padding:3px 13px;font-size:12px;color:var(--ink);white-space:nowrap}
-a.btn:hover{border-color:var(--forest);color:var(--forest);text-decoration:none}
+a.btn:hover{border-color:var(--teal);color:var(--teal);text-decoration:none}
 .toolbar{display:flex;gap:12px;align-items:center;padding:12px 0 18px;flex-wrap:wrap}
 input,textarea,select{font-family:var(--sans);font-size:14px;padding:9px 13px;
   border:1px solid var(--hair);border-radius:0;background:var(--sheet);color:var(--ink);width:100%}
 textarea{min-height:150px;resize:vertical}
-input:focus,textarea:focus,select:focus{outline:2px solid var(--forest-soft);border-color:var(--forest)}
-button.cta{background:var(--black);color:var(--paper);border:none;padding:9px 20px;
+input:focus,textarea:focus,select:focus{outline:2px solid var(--teal-soft);border-color:var(--teal)}
+button.cta{background:var(--ink);color:var(--paper);border:none;padding:9px 20px;
   border-radius:999px;cursor:pointer;font-size:13px;letter-spacing:.04em}
 button.cta.secondary{background:transparent;border:1px solid var(--hair);color:var(--ink)}
 button.cta:hover{opacity:.88}
 .panel{background:var(--sheet);border:1px solid var(--hair);padding:6px 20px}
 .drop{border:2px dashed var(--hair);border-radius:0;padding:34px 20px;text-align:center;
   color:var(--mute);cursor:pointer;transition:border-color .15s,background .15s}
-.drop.hot{border-color:var(--forest);background:var(--forest-soft)}
+.drop.hot{border-color:var(--teal);background:var(--teal-soft)}
 .drop .big{font-family:var(--serif);font-size:20px;color:var(--ink)}
 .hint{color:var(--mute);font-size:12.5px}
 .center{padding:28px;text-align:center;color:var(--mute)}
@@ -84,8 +84,8 @@ button.cta:hover{opacity:.88}
 .empty .big{font-family:var(--serif);font-size:26px;color:var(--ink)}
 .badge{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 10px;
   border:1px solid var(--hair);border-radius:999px}
-.badge.ok{color:var(--forest);border-color:var(--forest)}
-.badge.gold{background:var(--marker-soft);border-color:var(--marker)}
+.badge.ok{color:var(--teal);border-color:var(--teal)}
+.badge.gold{background:var(--baby-soft);border-color:var(--baby)}
 .badge.rose{color:var(--rose);border-color:var(--rose)}
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
 @media (max-width:820px){.cols2{grid-template-columns:1fr}}
@@ -94,19 +94,24 @@ button.cta:hover{opacity:.88}
 .hero .says{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
 .hero .t{font-family:var(--serif);font-size:32px;line-height:1.2;margin:10px 0 4px}
 .hero .a{color:var(--mute)}
-.hero .meta{font-family:var(--mono);font-size:16px;color:var(--forest);margin-top:16px}
+.hero .meta{font-family:var(--mono);font-size:16px;color:var(--teal);margin-top:16px}
 kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--hair);border-bottom-width:2px;
   border-radius:4px;padding:1px 6px}
 kbd.hot{margin-left:10px;color:var(--mute)}
 footer{color:var(--mute);font-size:12px;text-align:center;padding:44px 0 0}
-@media (prefers-color-scheme: dark){button.cta{color:#17140f;background:var(--black)}}
+@media (prefers-color-scheme: dark){button.cta{color:#17140f;background:var(--ink)}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="brand">w<em>o</em>b<kbd class="hot" id="kbd-hint" title="shortcuts">1–5</kbd></div>
-    <div class="motto">the book radar · ad meliores libros</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap">
+      <img src="/booksnob.png" alt="wob" style="height:52px;width:auto">
+      <div style="text-align:left">
+        <div class="brand">w<em>o</em>b<kbd class="hot" id="kbd-hint" title="shortcuts">1–5</kbd></div>
+        <div class="motto">the book radar · ad meliores libros</div>
+      </div>
+    </div>
     <div class="stats" id="stats"></div>
   </header>
   <nav>
