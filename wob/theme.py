@@ -17,7 +17,7 @@ _BASIC = {
     "hi": 37, "warn": 33, "rose": 31,
 }
 _256 = {
-    "accent": 45, "ok": 42, "gold": 214, "dim": 240,
+    "accent": 117, "ok": 43, "gold": 117, "dim": 240,
     "hi": 255, "warn": 178, "rose": 203,
 }
 _STYLES = {"bold": 1, "dim": 2, "italic": 3, "underline": 4}
