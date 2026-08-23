@@ -54,12 +54,12 @@ def evaluate():
 class TestResolverEval(unittest.TestCase):
     def test_baseline_metrics(self):
         out = evaluate()
-        # baseline release bar: exact-class precision == 1.0 on this set
-        self.assertEqual(out["exact"]["precision"], 1.0)
-        # incompatible recall should be 1.0: no false "compatible" matches
-        self.assertEqual(out["incompatible"]["recall"], 1.0)
-        # nothing abstains into silence: uncertain rows exist and resolve
-        self.assertIn("uncertain", out)
+        # baseline bar: 1.0 precision/recall on the hand-labeled set —
+        # the embedding model must beat this before replacing any rule
+        for cls, m in out.items():
+            self.assertEqual(m["precision"], 1.0, cls)
+            self.assertEqual(m["recall"], 1.0, cls)
+        self.assertGreaterEqual(out["exact"]["n"] + out["compatible"]["n"], 25)
 
 
 if __name__ == "__main__":

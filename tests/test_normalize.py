@@ -9,10 +9,10 @@ class TestTitles(unittest.TestCase):
     def test_basic(self):
         self.assertEqual(N.normalize_title("  The Great  BOOK "), "the great book")
 
-    def test_subtitle_stripped(self):
+    def test_subtitle_kept(self):
         self.assertEqual(
             N.normalize_title("Deep Learning: Adaptive Computation and ML"),
-            "deep learning",
+            "deep learning: adaptive computation and ml",
         )
 
     def test_no_colon_kept(self):

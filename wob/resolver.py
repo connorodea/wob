@@ -5,13 +5,13 @@ Every result carries confidence, explanation, and evidence (the rule
 that fired). Purely deterministic — this is the baseline the optional
 embedding model must beat before it can replace anything.
 
-Rules (in order):
-  R1 shared ISBN-13                          -> exact   1.00
-  R2 ISBN-10 <-> ISBN-13 cross-match         -> exact   0.98
-  R3 both ISBNs present, different           -> incompatible 0.90
-  R4 strong normalized title+author overlap  -> compatible  0.85
-  R5 weaker overlap band                     -> uncertain  0.60
-  R6 below band                              -> incompatible 0.75
+Rules:
+  R1 shared ISBN-13                       -> exact   1.00
+  R2 ISBN-10 <-> ISBN-13 cross-match      -> exact   0.98
+  R3 differing ISBNs -> work-identity check (coverage + author gate)
+  R4 strong normalized title coverage     -> compatible
+  R5 partial overlap / unconfirmed author -> uncertain
+  R6 below threshold                      -> incompatible
 """
 
 from __future__ import annotations
@@ -19,23 +19,87 @@ from __future__ import annotations
 from . import isbnutil
 from .normalize import normalize_author, normalize_title
 
-STRONG_SIM = 0.75
-WEAK_SIM = 0.40
-
 
 def _tokens(*parts):
     out = set()
     for p in parts:
         for w in p.split():
+            w = w.strip(".,;:()[]!?-")
             if len(w) >= 3:
                 out.add(w)
     return out
 
 
-def _jaccard(a: set, b: set) -> float:
-    if not a or not b:
-        return 0.0
-    return len(a & b) / len(a | b)
+GENERIC = {
+    "machine",
+    "learning",
+    "deep",
+    "python",
+    "data",
+    "science",
+    "introduction",
+    "hands-on",
+    "algorithms",
+    "artificial",
+    "intelligence",
+    "modern",
+    "approach",
+    "with",
+    "for",
+    "and",
+    "analysis",
+    "system",
+    "systems",
+    "design",
+    "clean",
+    "computer",
+    "networking",
+    "network",
+    "programming",
+    "the",
+    "you",
+    "your",
+    "practical",
+    "linear",
+    "algebra",
+    "calculus",
+    "statistics",
+    "probability",
+    "mathematics",
+    "math",
+    "theory",
+    "fundamentals",
+    "applications",
+    "applied",
+    "advanced",
+    "series",
+    "books",
+    "guide",
+    "its",
+}
+EDITION_MARKERS = {
+    "2nd",
+    "3rd",
+    "4th",
+    "5th",
+    "6th",
+    "7th",
+    "8th",
+    "9th",
+    "10th",
+    "edition",
+    "ed",
+    "vol",
+    "volume",
+    "second",
+    "third",
+    "fourth",
+    "global",
+}
+
+
+def _distinctive(tokens):
+    return tokens - GENERIC - EDITION_MARKERS
 
 
 def _isbns(a, b):
@@ -48,6 +112,68 @@ def _isbns(a, b):
             if i13:
                 out.add(i13)
     return left, right
+
+
+def _text_verdict(title_a, author_a, title_b, author_b):
+    """Coverage-based work-identity verdict for two non-ISBN-matching sides."""
+    ta = _tokens(title_a)
+    tb = _tokens(title_b)
+    au = _tokens(author_a)
+    ab = _tokens(author_b)
+    shared = ta & tb
+    cov = len(shared) / min(len(ta), len(tb)) if ta and tb else 0.0
+    author_match = bool(au & ab)
+    distinctive = _distinctive(shared)
+    extra = (ta | tb) - shared - EDITION_MARKERS
+
+    if not title_a or not title_b or not author_a or not author_b:
+        return {
+            "class": "uncertain",
+            "confidence": 0.3,
+            "explanation": "insufficient metadata to judge",
+            "evidence": {"cov": round(cov, 3)},
+        }
+
+    # strong identity: real identifying title words, or (near-)identical
+    # titles from the same author (new edition / subtitle changes)
+    if len(distinctive) >= 2 or (cov >= 0.6 and distinctive and author_match and not extra):
+        return {
+            "class": "compatible",
+            "confidence": 0.85 if author_match else 0.7,
+            "explanation": "strong normalized title overlap"
+            + (" + matching author" if author_match else " (author unconfirmed)"),
+            "evidence": {"cov": round(cov, 3), "distinctive": sorted(distinctive)[:5]},
+        }
+    if cov >= 0.75 and author_match:
+        return {
+            "class": "compatible",
+            "confidence": 0.8,
+            "explanation": "identical/near-identical title + matching author",
+            "evidence": {"cov": round(cov, 3)},
+        }
+
+    # ambiguous middle
+    if cov >= 0.4 and author_match:
+        return {
+            "class": "uncertain",
+            "confidence": 0.55,
+            "explanation": "partial title overlap with matching author",
+            "evidence": {"cov": round(cov, 3)},
+        }
+    if cov >= 0.4 and distinctive:
+        return {
+            "class": "uncertain",
+            "confidence": 0.5,
+            "explanation": "some identifying words overlap, authors differ",
+            "evidence": {"cov": round(cov, 3), "distinctive": sorted(distinctive)[:5]},
+        }
+
+    return {
+        "class": "incompatible",
+        "confidence": 0.75,
+        "explanation": "titles/authors do not match",
+        "evidence": {"cov": round(cov, 3), "shared": sorted(shared)[:5]},
+    }
 
 
 def resolve(a: dict, b: dict) -> dict:
@@ -71,57 +197,16 @@ def resolve(a: dict, b: dict) -> dict:
     # R3: differing ISBNs are NOT enough to call books different — different
     # editions of the same work share no ISBN. Fall back to work identity.
     if isbns_a and isbns_b:
-        sim = _jaccard(_tokens(title_a, author_a), _tokens(title_b, author_b))
-        if sim >= STRONG_SIM:
+        verdict = _text_verdict(title_a, author_a, title_b, author_b)
+        if verdict["class"] == "incompatible":
             return {
-                "class": "compatible",
-                "confidence": 0.8,
-                "explanation": "different ISBNs, same work by title+author",
-                "evidence": {
-                    "sim": round(sim, 3),
-                    "isbns": [sorted(isbns_a)[0], sorted(isbns_b)[0]],
-                },
+                "class": "incompatible",
+                "confidence": 0.9,
+                "explanation": "different ISBNs and no title corroboration",
+                "evidence": [sorted(isbns_a)[0], sorted(isbns_b)[0]],
             }
-        if sim >= WEAK_SIM:
-            return {
-                "class": "uncertain",
-                "confidence": 0.55,
-                "explanation": "different ISBNs, partial title overlap",
-                "evidence": {"sim": round(sim, 3)},
-            }
-        return {
-            "class": "incompatible",
-            "confidence": 0.9,
-            "explanation": "different ISBNs and no title corroboration",
-            "evidence": [sorted(isbns_a)[0], sorted(isbns_b)[0]],
-        }
+        verdict["confidence"] = min(verdict["confidence"], 0.9)
+        verdict["explanation"] = "different ISBNs: " + verdict["explanation"]
+        return verdict
 
-    # textual similarity
-    sim = _jaccard(_tokens(title_a, author_a), _tokens(title_b, author_b))
-    if sim >= STRONG_SIM:
-        return {
-            "class": "compatible",
-            "confidence": 0.85,
-            "explanation": "strong normalized title+author overlap",
-            "evidence": {"sim": round(sim, 3)},
-        }
-    if sim >= WEAK_SIM:
-        return {
-            "class": "uncertain",
-            "confidence": 0.6,
-            "explanation": "partial overlap — not confident enough to match",
-            "evidence": {"sim": round(sim, 3)},
-        }
-    if not title_a or not title_b:
-        return {
-            "class": "uncertain",
-            "confidence": 0.3,
-            "explanation": "insufficient metadata to judge",
-            "evidence": {},
-        }
-    return {
-        "class": "incompatible",
-        "confidence": 0.75,
-        "explanation": "titles/authors do not match",
-        "evidence": {"sim": round(sim, 3)},
-    }
+    return _text_verdict(title_a, author_a, title_b, author_b)
