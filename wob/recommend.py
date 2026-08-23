@@ -66,6 +66,40 @@ def resolve_seed(text):
     return None
 
 
+def recommend_for_profile(profile, top=6, rows=None):
+    """Profile-based recommendations: affinity (interests/authors) blended
+    with deal discount, each with readable reasons. Deterministic.
+
+    rows defaults to the scanned shelf; pass rows explicitly in tests
+    (keeps the evaluator hermetic — the deals module globals are
+    monkeypatchable but not trustworthy across test orderings)."""
+    from .profile import affinity as profile_affinity
+
+    rows = load_deals() if rows is None else rows
+    scored = []
+    for r in rows:
+        aff, reasons = profile_affinity(profile, r.get("title", ""), r.get("author", ""))
+        if aff < 0.4:
+            continue
+        boost = (r.get("pct_off") or 0) * 0.25
+        scored.append(
+            {
+                "label": "",
+                "title": r.get("title", ""),
+                "sim": round(aff + boost, 3),
+                "affinity": round(aff, 3),
+                "price": r.get("used_price"),
+                "pct_off": r.get("pct_off"),
+                "site": r.get("site", "wob"),
+                "url": r.get("url", ""),
+                "cond": r.get("condition", ""),
+                "reasons": reasons,
+            }
+        )
+    scored.sort(key=lambda x: -x["sim"])
+    return scored[:top]
+
+
 def recommend(texts, top=5):
     idx = _index()
     seeds = [idx[t] for t in (resolve_seed(t) for t in texts) if t]
@@ -88,9 +122,16 @@ def recommend(texts, top=5):
                 break
         if best_sim < 0.25 and not co_pack:
             continue
-        scores[e["label"]] = {"label": e["label"], "sim": round(best_sim + co_pack, 3),
-                              "price": None, "pct_off": None, "site": "", "url": "",
-                              "cond": "", "title": ""}
+        scores[e["label"]] = {
+            "label": e["label"],
+            "sim": round(best_sim + co_pack, 3),
+            "price": None,
+            "pct_off": None,
+            "site": "",
+            "url": "",
+            "cond": "",
+            "title": "",
+        }
 
     for r in load_deals():
         hay = _norm_multi(r.get("title", ""), r.get("handle", "") + " " + r.get("author", ""))
@@ -98,9 +139,14 @@ def recommend(texts, top=5):
             e = idx[label]
             if all(_norm_multi(t) in hay for t in e["tokens"]):
                 if row["price"] is None or r["used_price"] < row["price"]:
-                    row.update(price=r["used_price"], pct_off=r["pct_off"],
-                               site=r.get("site", "wob"), url=r.get("url", ""),
-                               cond=r.get("condition", ""), title=r.get("title", ""))
+                    row.update(
+                        price=r["used_price"],
+                        pct_off=r["pct_off"],
+                        site=r.get("site", "wob"),
+                        url=r.get("url", ""),
+                        cond=r.get("condition", ""),
+                        title=r.get("title", ""),
+                    )
 
     ranked = sorted(
         scores.values(),

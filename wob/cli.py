@@ -41,12 +41,14 @@ def _load_keywords(args):
         return [args.term]
     path = args.keywords
     if not os.path.exists(path) and path == "keywords.txt":
-        bundled = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "keywords.txt")
+        bundled = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "keywords.txt"
+        )
         if os.path.exists(bundled):
             path = bundled
     return [
-        l.strip()
-        for l in open(path).read().splitlines()
+        line.strip()
+        for line in open(path).read().splitlines()
         if l.strip() and not l.startswith("#")
     ]
 
@@ -110,15 +112,26 @@ def _scan_locked(args):
             print(f"unknown site {site!r}, skipping")
         deals_mod.save_scan_state(seen)
     print()
-    print(T.status("ok", f"{total_deals} new deals · {str(len(seen)).rjust(0)} books tracked · data/ up to date"))
-    print(T.whisper("next idea: wob alerts --notify  ·  wob coursepack <id>  ·  wob recommend --like \"...\""))
+    print(
+        T.status(
+            "ok",
+            f"{total_deals} new deals · {str(len(seen)).rjust(0)} books tracked · data/ up to date",
+        )
+    )
+    print(
+        T.whisper(
+            'next idea: wob alerts --notify  ·  wob coursepack <id>  ·  wob recommend --like "..."'
+        )
+    )
 
 
 def _scan_wob(keywords, args, seen):
     total = 0
     n = len(keywords)
     for i, kw in enumerate(keywords, 1):
-        print(f"{T.dim(f'[{i:>2}/{n}]')} {T.paint('wob', 'accent')} {T.bold(kw)}", end="", flush=True)
+        print(
+            f"{T.dim(f'[{i:>2}/{n}]')} {T.paint('wob', 'accent')} {T.bold(kw)}", end="", flush=True
+        )
         products = list(iter_search_results(kw, args.pages, args.max_hits))
         print(T.dim(f"  → {len(products)} hits"), flush=True)
         batch = []
@@ -189,15 +202,21 @@ def cmd_deals(args):
         rows = rows[: args.top]
     if args.min_off > 0:
         rows = [r for r in rows if r["pct_off"] >= args.min_off]
-    print(T.frame(
-        f"deals{(' quality' if args.quality else '')} {('top '+str(args.top)) if args.top else ''}".strip(),
-        T.dim(f"{len(rows)} books · sorted by discount"),
-    ))
+    print(
+        T.frame(
+            f"deals{(' quality' if args.quality else '')} {('top ' + str(args.top)) if args.top else ''}".strip(),
+            T.dim(f"{len(rows)} books · sorted by discount"),
+        )
+    )
     print()
     for r in rows:
         author = f" — {r.get('author', '')[:22]}" if r.get("author") else ""
         title = r["title"][:44]
-        anchor = f"was ${r['new_price']:.2f}" if r["used_price"] < r["new_price"] else f"at ${r['new_price']:.2f}"
+        anchor = (
+            f"was ${r['new_price']:.2f}"
+            if r["used_price"] < r["new_price"]
+            else f"at ${r['new_price']:.2f}"
+        )
         line = (
             f"{T.q_star(r.get('quality'))} {T.pct_colored(r['pct_off'])}  "
             f"{T.money(r['used_price'])}  {T.dim(anchor)}  "
@@ -222,18 +241,29 @@ def _cmd_cart(args):
         print(T.frame("cart", T.dim("api session · worldofbooks.com")))
         print()
         for i in c.get("items", []):
-            print(f"  {T.paint(str(i['quantity'])+'x', 'accent')}  {i['title'][:52]}  {T.money(i['price']/100)}")
+            print(
+                f"  {T.paint(str(i['quantity']) + 'x', 'accent')}  {i['title'][:52]}  {T.money(i['price'] / 100)}"
+            )
         print()
-        print(T.status("star", f"{c.get('item_count', 0)} items · total {T.money(c.get('total_price', 0)/100, positive=True)}"))
+        print(
+            T.status(
+                "star",
+                f"{c.get('item_count', 0)} items · total {T.money(c.get('total_price', 0) / 100, positive=True)}",
+            )
+        )
         return
     if args.cookie:
         v = cart.cart_cookie()
         if not v:
             print(T.status("info", "no cart cookie in jar yet — run wob cart --add first"))
             return
-        print(T.frame("cookie transplant", "paste into DevTools on worldofbooks.com, then reload /cart"))
+        print(
+            T.frame(
+                "cookie transplant", "paste into DevTools on worldofbooks.com, then reload /cart"
+            )
+        )
         print()
-        print(f"  {T.paint('document.cookie=\"cart={v}; path=/; domain=.worldofbooks.com\"', 'hi')}")
+        print(f"  {T.paint('document.cookie="cart={v}; path=/; domain=.worldofbooks.com"', 'hi')}")
         return
     if args.clear:
         n = cart.clear_session_cart()
@@ -265,7 +295,9 @@ def cmd_search(args):
         else:
             print(f"  provider {s!r} unavailable (disabled or unknown), skipping")
     if not chosen:
-        print("no providers available (ebay needs EBAY_APP_ID+EBAY_ACCESS_TOKEN in ~/.config/wob/.env)")
+        print(
+            "no providers available (ebay needs EBAY_APP_ID+EBAY_ACCESS_TOKEN in ~/.config/wob/.env)"
+        )
         sys.exit(1)
 
     rows = []
@@ -307,26 +339,25 @@ def cmd_search(args):
     if isbn13:
         for r in deals_mod.load_deals():
             if r.get("isbn13") == isbn13 or r.get("barcode") == isbn13:
-                rows.append({
-                    "site": f"local:{r.get('site', 'wob')}",
-                    "title": r.get("title", ""),
-                    "condition": r.get("condition", "UNKNOWN"),
-                    "price": r.get("used_price"),
-                    "currency": "USD",
-                    "url": r.get("url", ""),
-                    "source": "local-deal",
-                    "meta": {"pct_off": r.get("pct_off")},
-                })
+                rows.append(
+                    {
+                        "site": f"local:{r.get('site', 'wob')}",
+                        "title": r.get("title", ""),
+                        "condition": r.get("condition", "UNKNOWN"),
+                        "price": r.get("used_price"),
+                        "currency": "USD",
+                        "url": r.get("url", ""),
+                        "source": "local-deal",
+                        "meta": {"pct_off": r.get("pct_off")},
+                    }
+                )
 
     if not rows:
         print("no results from any provider")
         return
 
     # reference price: best retail/new anchor we can find
-    refs = [
-        r["price"] for r in rows
-        if r.get("source") == "retail" and r.get("price")
-    ]
+    refs = [r["price"] for r in rows if r.get("source") == "retail" and r.get("price")]
     ref = min(refs) if refs else None
 
     priced = [r for r in rows if r.get("price") is not None]
@@ -335,6 +366,7 @@ def cmd_search(args):
 
     if args.json:
         import json as _json
+
         print(_json.dumps({"isbn13": isbn13, "ref": ref, "rows": rows}, indent=2, default=str))
         return
 
@@ -348,9 +380,18 @@ def cmd_search(args):
         return T.pct_colored(round(v, 4) if v is not None else None)
 
     title = f"search {isbnutil.mask(isbn13)}" if isbn13 else f"search “{args.term}”"
-    print(T.frame(title, T.dim(f"{len(priced)} priced offers · {len(metadata)} metadata · {len(chosen)} sources")))
+    print(
+        T.frame(
+            title,
+            T.dim(
+                f"{len(priced)} priced offers · {len(metadata)} metadata · {len(chosen)} sources"
+            ),
+        )
+    )
     print()
-    print(f"  {T.dim('provider'):>12}  {T.dim('cond'):<11} {T.dim('price'):>8} {T.dim('ref%'):>7}  {T.dim('link')}")
+    print(
+        f"  {T.dim('provider'):>12}  {T.dim('cond'):<11} {T.dim('price'):>8} {T.dim('ref%'):>7}  {T.dim('link')}"
+    )
     print("  " + T.rule())
     best = priced[0] if priced else None
     for i, r in enumerate(priced + metadata):
@@ -360,20 +401,36 @@ def cmd_search(args):
         provider = T.paint(f"{r['site']:<12}", "accent" if r is best else "hi")
         if r.get("meta", {}).get("seller"):
             link = f"{r['meta']['seller'][:18]} · {link[:26]}" if link else r["meta"]["seller"][:44]
-        print(f"  {mark}{provider}  {T.cond_badge(r.get('condition',''))}  {price}  {_pct(r, ref):>9}  {T.dim(link)}")
+        print(
+            f"  {mark}{provider}  {T.cond_badge(r.get('condition', ''))}  {price}  {_pct(r, ref):>9}  {T.dim(link)}"
+        )
     if ref:
         print()
-        print(T.status("star", f"reference (new) {T.money(ref)}  ·  best {T.paint('$%.2f' % best['price'], 'ok', 'bold')}  ({_pct(best, ref).strip()} off)" if best else f"reference (new) {T.money(ref)}"))
+        print(
+            T.status(
+                "star",
+                f"reference (new) {T.money(ref)}  ·  best {T.paint('$%.2f' % best['price'], 'ok', 'bold')}  ({_pct(best, ref).strip()} off)"
+                if best
+                else f"reference (new) {T.money(ref)}",
+            )
+        )
     print()
     print(T.whisper("add googleshopping/amazon/ebay to --sites for more sources"))
 
 
 def cmd_coursepack(args):
     if not args.course or args.course == "list":
-        print(T.frame("course packs", T.dim(f"{len(list_coursepacks())} catalogs · wob coursepack <id> [--scan] [--web]")))
+        print(
+            T.frame(
+                "course packs",
+                T.dim(f"{len(list_coursepacks())} catalogs · wob coursepack <id> [--scan] [--web]"),
+            )
+        )
         print()
         for cid, (name, books) in list_coursepacks():
-            print(f"  {T.paint(cid, 'accent'):<24}{name}{T.dim(' · ' + str(len(books)) + ' books')}")
+            print(
+                f"  {T.paint(cid, 'accent'):<24}{name}{T.dim(' · ' + str(len(books)) + ' books')}"
+            )
         print()
         print(T.whisper("usage: wob coursepack <id>            e.g. wob coursepack stanford-cs229"))
         return
@@ -399,9 +456,13 @@ def cmd_coursepack(args):
             for label, tokens in missing:
                 term = label.split(" (")[0]
                 scan_args = argparse.Namespace(
-                    term=term, keywords=None,
-                    sites=getattr(args, "sites", "wob,tb"), pages=1,
-                    max_hits=150, min_off=args.min_off, fresh=False,
+                    term=term,
+                    keywords=None,
+                    sites=getattr(args, "sites", "wob,tb"),
+                    pages=1,
+                    max_hits=150,
+                    min_off=args.min_off,
+                    fresh=False,
                 )
                 cmd_scan(scan_args)
             rows = deals_mod.load_deals()  # reload after scans
@@ -423,7 +484,9 @@ def cmd_coursepack(args):
                     site_totals[site] = site_totals.get(site, 0) + price
                     found += 1
                     continue
-            print(f"  {T.dim('—'.rjust(9))}  {T.dim('[not found]'):<8}  {label[:58]}{T.dim('  · scan: wob scan --term \"' + label.split(' (')[0] + '\"')}")
+            print(
+                f"  {T.dim('—'.rjust(9))}  {T.dim('[not found]'):<8}  {label[:58]}{T.dim('  · scan: wob scan --term "' + label.split(' (')[0] + '"')}"
+            )
             continue
         best = matches[0]
         total += best["used_price"]
@@ -434,10 +497,19 @@ def cmd_coursepack(args):
             f"  {T.money(best['used_price'])}  {T.site_tag(site):<8} {T.q_star(best.get('quality'))} {T.cond_badge(best['condition'])}  {T.bold(label[:48])}"
         )
     print()
-    print(T.status("star", f"basket {found}/{len(books)} found · total {T.money(total, positive=True)}"))
+    print(
+        T.status(
+            "star", f"basket {found}/{len(books)} found · total {T.money(total, positive=True)}"
+        )
+    )
     if len(site_totals) > 1:
         best_site = min(site_totals, key=site_totals.get)
-        print(T.status("info", f"ship from {T.paint(best_site, 'accent')} — one parcel, less shipping: {', '.join(f'{s} {T.money(t)}' for s, t in sorted(site_totals.items(), key=lambda x: -x[1]))}"))
+        print(
+            T.status(
+                "info",
+                f"ship from {T.paint(best_site, 'accent')} — one parcel, less shipping: {', '.join(f'{s} {T.money(t)}' for s, t in sorted(site_totals.items(), key=lambda x: -x[1]))}",
+            )
+        )
     if found < len(books):
         print(T.whisper("missing books: run with --scan and --web, or scan titles above"))
 
@@ -446,6 +518,7 @@ def _web_lookup_missing(label):
     title = label.split(" (")[0]
     try:
         from wob.providers import openlibrary, googleshopping
+
         ol = openlibrary.search(title, limit=1)
         isbn = None
         if ol and ol[0].get("meta", {}).get("isbn"):
@@ -455,6 +528,7 @@ def _web_lookup_missing(label):
         if not isbn:
             return None
         from . import isbnutil
+
         isbn = isbnutil.to13(isbn)
         if not isbn:
             return None
@@ -472,8 +546,12 @@ def _web_lookup_missing(label):
 def cmd_recommend(args):
     texts = [t.strip() for t in args.like if t.strip()]
     if not texts:
-        print(T.frame("recommend", "usage: wob recommend --like \"<book you loved>\" [--like ...] [--top N]"))
-        print(T.whisper("example: wob recommend --like \"Pattern Recognition and Machine Learning\""))
+        print(
+            T.frame(
+                "recommend", 'usage: wob recommend --like "<book you loved>" [--like ...] [--top N]'
+            )
+        )
+        print(T.whisper('example: wob recommend --like "Pattern Recognition and Machine Learning"'))
         sys.exit(1)
     seed = ", ".join(texts[:3])
     print(T.frame("recommend", f"you like  {T.paint(seed, 'hi')}"))
@@ -487,7 +565,7 @@ def cmd_recommend(args):
         sim_txt = f"{r['sim']:.3f}"
         line = f"{bar}  {T.paint(sim_txt, 'gold')}"
         if r["price"] is not None:
-            line += f"  {T.money(r['price'])}  {T.cond_badge(r['cond'])}  {T.site_tag(r.get('site',''))}  {T.bold(r['title'][:44])}"
+            line += f"  {T.money(r['price'])}  {T.cond_badge(r['cond'])}  {T.site_tag(r.get('site', ''))}  {T.bold(r['title'][:44])}"
         else:
             line += f"  {T.paint('—', 'dim'):>9}  {T.dim('[not scanned]'):<12}  {r['label'][:46]}"
         print("  " + line)
@@ -506,9 +584,11 @@ def cmd_alerts(args):
     print()
     for a in all_a:
         if a["kind"] == "drop":
-            drop_amt = f"-${a['prev']-a['price']:.2f}"
+            drop_amt = f"-${a['prev'] - a['price']:.2f}"
             trail = f"${a['prev']:.2f} → ${a['price']:.2f}"
-            print(f"  {T.paint('▼', 'ok', 'bold')} {T.paint(drop_amt, 'ok')}  {a['title'][:44]}{T.dim('  ' + trail)}  {T.site_tag(a['site'])}")
+            print(
+                f"  {T.paint('▼', 'ok', 'bold')} {T.paint(drop_amt, 'ok')}  {a['title'][:44]}{T.dim('  ' + trail)}  {T.site_tag(a['site'])}"
+            )
         else:
             print(
                 f"  {T.paint('✦', 'gold', 'bold')} {T.money(a['price'])}  {a['title'][:44]}  "
@@ -518,7 +598,9 @@ def cmd_alerts(args):
         fresh = alerts_mod.new_since_last(all_a)
         alerts_mod.notify(fresh)
     print()
-    print(T.whisper(f"{len(all_a)} alert(s) · re-run with --notify for a desktop ping on what is new"))
+    print(
+        T.whisper(f"{len(all_a)} alert(s) · re-run with --notify for a desktop ping on what is new")
+    )
 
 
 def cmd_history(args):
@@ -530,17 +612,21 @@ def cmd_history(args):
         a, b = snaps[-1], snaps[-2]
         if a["used_price"] is None or b["used_price"] is None:
             continue
-        deltas.append({
-            "ident": ident,
-            "delta": a["used_price"] - b["used_price"],
-            "prev": b["used_price"],
-            "cur": a["used_price"],
-            "site": a.get("site", ""),
-            "pct_off": a.get("pct_off"),
-        })
+        deltas.append(
+            {
+                "ident": ident,
+                "delta": a["used_price"] - b["used_price"],
+                "prev": b["used_price"],
+                "cur": a["used_price"],
+                "site": a.get("site", ""),
+                "pct_off": a.get("pct_off"),
+            }
+        )
     drops = [d for d in deltas if d["delta"] < 0]
     drops.sort(key=lambda d: d["delta"])
-    print(T.frame("price history", T.dim(f"{len(deltas)} books tracked · {len(drops)} price drops")))
+    print(
+        T.frame("price history", T.dim(f"{len(deltas)} books tracked · {len(drops)} price drops"))
+    )
     print()
     for d in drops[: args.top]:
         off = T.pct_colored(d["pct_off"]) if d["pct_off"] is not None else T.paint("   —  ", "dim")
@@ -551,12 +637,16 @@ def cmd_history(args):
             f"{d['ident'][:42]:<42} {T.dim(trail)} {T.money(d['cur'])}  {off}  {T.site_tag(d['site'])}"
         )
     print()
-    print(T.whisper("data/history.jsonl holds every snapshot · drops appear as re-scans accumulate"))
+    print(
+        T.whisper("data/history.jsonl holds every snapshot · drops appear as re-scans accumulate")
+    )
 
 
 def cmd_track(args):
     """Re-price already-tracked wob deals and snapshot history (drop detection)."""
-    rows = [r for r in deals_mod.load_deals() if r.get("site") == "wob" and r.get("handle")][: args.top]
+    rows = [r for r in deals_mod.load_deals() if r.get("site") == "wob" and r.get("handle")][
+        : args.top
+    ]
     if not rows:
         print(T.status("info", "no tracked wob deals to re-price"))
         return
@@ -578,7 +668,13 @@ def cmd_track(args):
             deal["barcode"] = r.get("barcode", "")
             deals_mod.snapshot_history([deal])
             snapped += 1
-            arrow = "▼" if deal["used_price"] < r["used_price"] else "▲" if deal["used_price"] > r["used_price"] else "·"
+            arrow = (
+                "▼"
+                if deal["used_price"] < r["used_price"]
+                else "▲"
+                if deal["used_price"] > r["used_price"]
+                else "·"
+            )
             tone = "ok" if deal["used_price"] <= r["used_price"] else "rose"
             print(
                 f"  {T.dim(f'[{i:>2}]')} {T.paint(arrow, tone)} {T.money(deal['used_price'])}"
@@ -586,32 +682,72 @@ def cmd_track(args):
             )
         polite_wait()
     print()
-    print(T.status("ok" if failed == 0 else "info", f"{snapped} re-priced · {failed} fetch failures · history updated"))
+    print(
+        T.status(
+            "ok" if failed == 0 else "info",
+            f"{snapped} re-priced · {failed} fetch failures · history updated",
+        )
+    )
     print(T.whisper("run: wob history   →   see price drops since the previous snapshot"))
 
 
 def cmd_app(args):
     from .webapp import run
+
     run(port=args.port, open_browser=args.open)
 
 
-def cmd_js_plan(args):
-    rows = [
-        r
-        for r in deals_mod.load_deals()
-        if r.get("site") == "wob" and r.get("variant_id")
-    ][: args.top]
-    for r in rows:
-        body = (
-            f"id={r['variant_id']}&quantity=1"
+def cmd_wos(args):
+    from .profile import build_profile
+    from .scoring import compute_deal_scores
+
+    profile = None
+    if args.interests or args.authors:
+        profile = build_profile(
+            "cli",
+            [i.strip() for i in args.interests.split(",") if i.strip()],
+            favored_authors=[a.strip() for a in args.authors.split(",") if a.strip()],
+            min_condition=args.min_condition,
+            budget_cents=int(args.budget * 100) if args.budget else None,
         )
+    rows = deals_mod.load_deals()
+    scored = compute_deal_scores(
+        rows, budget_cents=profile.budget_cents if profile else None, profile=profile
+    )
+    print(
+        T.frame(
+            "wos — the shelf ranked by opportunity",
+            T.dim(
+                f"{len(scored)} candidates"
+                + (f" · your interests" if profile else " · curated-shelf relevance")
+                + (f" · budget ${args.budget or '-'}" if args.budget else "")
+            ),
+        )
+    )
+    print()
+    for r, s in scored[: args.top]:
+        print(
+            f"  {T.paint(f'{s.score:.3f}', 'ok', 'bold')}  {T.money(r['used_price'])}  "
+            f"{T.cond_badge(r['condition'])}  {T.site_tag(r.get('site', 'wob'))}  {r['title'][:46]}"
+        )
+        print(T.dim(f"        {s.explanation[:150]}"))
+    print()
+    print(T.whisper("wos = relevance · discount · condition · scarcity · match · budget"))
+
+
+def cmd_js_plan(args):
+    rows = [r for r in deals_mod.load_deals() if r.get("site") == "wob" and r.get("variant_id")][
+        : args.top
+    ]
+    for r in rows:
+        body = f"id={r['variant_id']}&quantity=1"
         js = (
             f"fetch('/cart/add.js',{{method:'POST',"
             f"headers:{{'Content-Type':'application/x-www-form-urlencoded'}},"
             f"body:{body!r}}}).then(x=>x.json()).then(j=>"
             f"console.log('ADDED',j.title,j.quantity))"
         )
-        print(f"# {r['pct_off']*100:.0f}% off — {r['title'][:60]}")
+        print(f"# {r['pct_off'] * 100:.0f}% off — {r['title'][:60]}")
         print(js)
         print()
     print(f"# {len(rows)} items (open url: {cart.BASE}/cart)")
@@ -631,7 +767,11 @@ def main():
     p.add_argument("--pages", type=int, default=1)
     p.add_argument("--max-hits", type=int, default=400, help="products per keyword (wob only)")
     p.add_argument("--min-off", type=float, default=0.70)
-    p.add_argument("--fresh", action="store_true", help="re-queue state-only items; existing deals stay skipped")
+    p.add_argument(
+        "--fresh",
+        action="store_true",
+        help="re-queue state-only items; existing deals stay skipped",
+    )
     p.set_defaults(func=cmd_scan)
 
     p = sub.add_parser("deals", help="print found deals sorted by discount")
@@ -658,26 +798,40 @@ def main():
 
     p = sub.add_parser("coursepack", help="semester reading list -> cheapest basket")
     p.add_argument("course", nargs="?", default="list")
-    p.add_argument("--web", action="store_true", help="price missing books across the web (paid sources may be used)")
-    p.add_argument("--scan", action="store_true", help="scan missing titles first (wob,tb), then price the basket")
+    p.add_argument(
+        "--web",
+        action="store_true",
+        help="price missing books across the web (paid sources may be used)",
+    )
+    p.add_argument(
+        "--scan",
+        action="store_true",
+        help="scan missing titles first (wob,tb), then price the basket",
+    )
     p.add_argument("--sites", default="wob,tb", help="sites for --scan")
     p.add_argument("--min-off", type=float, default=0.70)
     p.set_defaults(func=cmd_coursepack)
 
     p = sub.add_parser("recommend", help="books adjacent to what you like, ranked with prices")
-    p.add_argument("--like", action="append", default=[], help="a book you loved (repeatable, free text)")
+    p.add_argument(
+        "--like", action="append", default=[], help="a book you loved (repeatable, free text)"
+    )
     p.add_argument("--top", type=int, default=5)
     p.set_defaults(func=cmd_recommend)
 
     p = sub.add_parser("alerts", help="price drops + screaming Q-tier deals")
-    p.add_argument("--notify", action="store_true", help="macOS notification for NEW findings since last run")
+    p.add_argument(
+        "--notify", action="store_true", help="macOS notification for NEW findings since last run"
+    )
     p.set_defaults(func=cmd_alerts)
 
     p = sub.add_parser("history", help="tracked price changes (drops first)")
     p.add_argument("--top", type=int, default=10)
     p.set_defaults(func=cmd_history)
 
-    p = sub.add_parser("track", help="re-price tracked books + snapshot history (feeds wob history/alerts)")
+    p = sub.add_parser(
+        "track", help="re-price tracked books + snapshot history (feeds wob history/alerts)"
+    )
     p.add_argument("--top", type=int, default=30, help="how many wob deals to re-price")
     p.set_defaults(func=cmd_track)
 
@@ -686,7 +840,19 @@ def main():
     p.add_argument("--open", action="store_true", help="open the browser automatically")
     p.set_defaults(func=cmd_app)
 
-    p = sub.add_parser("js-plan", help="print in-browser add-to-cart JS snippets for the top N deals")
+    p = sub.add_parser("wos", help="rank the shelf by Wob Opportunity Score")
+    p.add_argument("--top", type=int, default=10)
+    p.add_argument(
+        "--interests", default="", help="comma list, e.g. 'reinforcement learning, bayesian'"
+    )
+    p.add_argument("--authors", default="", help="comma list of favored authors")
+    p.add_argument("--budget", type=float, default=0, help="max landed cost in dollars (0 = none)")
+    p.add_argument("--min-condition", default="GOOD")
+    p.set_defaults(func=cmd_wos)
+
+    p = sub.add_parser(
+        "js-plan", help="print in-browser add-to-cart JS snippets for the top N deals"
+    )
     p.add_argument("--top", type=int, default=12)
     p.set_defaults(func=cmd_js_plan)
 
@@ -721,8 +887,13 @@ def main():
 
 def cmd_schedule_add(args):
     schedule_add(
-        args.name, args.keywords, args.every, args.sites,
-        args.min_off, args.max_hits, args.pages,
+        args.name,
+        args.keywords,
+        args.every,
+        args.sites,
+        args.min_off,
+        args.max_hits,
+        args.pages,
     )
 
 
