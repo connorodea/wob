@@ -49,7 +49,7 @@ def _load_keywords(args):
     return [
         line.strip()
         for line in open(path).read().splitlines()
-        if l.strip() and not l.startswith("#")
+        if line.strip() and not line.startswith("#")
     ]
 
 
@@ -719,7 +719,7 @@ def cmd_wos(args):
             "wos — the shelf ranked by opportunity",
             T.dim(
                 f"{len(scored)} candidates"
-                + (f" · your interests" if profile else " · curated-shelf relevance")
+                + (" · your interests" if profile else " · curated-shelf relevance")
                 + (f" · budget ${args.budget or '-'}" if args.budget else "")
             ),
         )
@@ -733,6 +733,66 @@ def cmd_wos(args):
         print(T.dim(f"        {s.explanation[:150]}"))
     print()
     print(T.whisper("wos = relevance · discount · condition · scarcity · match · budget"))
+
+
+def cmd_watch(args):
+    from . import watch as W
+
+    if args.sub == "add":
+        try:
+            e = W.add(
+                "cli",
+                args.isbn,
+                min_condition=args.min_condition,
+                target_price_cents=int(args.target * 100) if args.target else None,
+            )
+        except ValueError as err:
+            print(T.status("err", str(err)))
+            sys.exit(1)
+        if e is None:
+            print(T.status("info", "already on the watchlist"))
+        else:
+            print(
+                T.status(
+                    "ok",
+                    f"watching {e.edition_id} "
+                    f"({'any price' if e.target_price_cents is None else f'<= ${e.target_price_cents / 100:.2f}'}, "
+                    f"min {e.min_condition})",
+                )
+            )
+        return
+    if args.sub == "list":
+        entries = W.load_all()
+        if not entries:
+            print(T.frame("watchlist", T.dim("nothing watched yet — wob watch add --isbn ...")))
+            return
+        print(T.frame("watchlist", T.dim(f"{len(entries)} book(s)")))
+        for e in entries:
+            target = f"<= ${e.target_price_cents / 100:.2f}" if e.target_price_cents else "any"
+            print(
+                f"  {T.paint(e.watch_id, 'accent')}  {e.edition_id}  {T.dim(target + ', min ' + e.min_condition)}"
+            )
+        return
+    if args.sub == "remove":
+        n = W.remove(args.identity)
+        print(T.status("ok" if n else "info", f"removed {n} watch(es)"))
+        return
+    if args.sub == "check":
+        rows = deals_mod.load_deals()
+        hits = W.check(rows)
+        found = [h for h in hits if h["found"]]
+        print(T.frame("watch check", T.dim(f"{len(hits)} watched · {len(found)} qualified")))
+        print()
+        for h in found:
+            mark = T.paint("✓", "ok") if h["within_budget"] else T.paint("✗", "rose")
+            print(
+                f"  {mark}  {T.money(h['price'])}  {h['condition']:<10}  {h['isbn']}  "
+                f"{T.dim(h['reason'][:60])}"
+            )
+        for h in hits:
+            if not h["found"]:
+                print(f"  {T.paint('·', 'dim')}  {h['isbn']}  {T.dim('not found locally')}")
+        return
 
 
 def cmd_js_plan(args):
@@ -849,6 +909,18 @@ def main():
     p.add_argument("--budget", type=float, default=0, help="max landed cost in dollars (0 = none)")
     p.add_argument("--min-condition", default="GOOD")
     p.set_defaults(func=cmd_wos)
+
+    p = sub.add_parser("watch", help="watchlist: alert when a book meets your terms")
+    pw = p.add_subparsers(dest="sub", required=True)
+    pa = pw.add_parser("add", help="watch an ISBN")
+    pa.add_argument("--isbn", required=True)
+    pa.add_argument("--min-condition", default="GOOD")
+    pa.add_argument("--target", type=float, default=0, help="top price in dollars (0 = any)")
+    pw.add_parser("list")
+    pr = pw.add_parser("remove")
+    pr.add_argument("identity", help="watch id or ISBN")
+    pw.add_parser("check", help="match against the scanned shelf")
+    p.set_defaults(func=cmd_watch)
 
     p = sub.add_parser(
         "js-plan", help="print in-browser add-to-cart JS snippets for the top N deals"
