@@ -1,9 +1,23 @@
-{"a":{"title":"Deep Learning","author":"Ian Goodfellow","isbn":"9780262035613"},"b":{"title":"Natural Language Processing with Python","author":"Steven Bird","isbn":"9780596516499"},"true_class":"incompatible"}
-{"a":{"title":"Machine Learning","author":"Tom Mitchell"},"b":{"title":"Machine Learning for Hackers","author":"Drew Conway"},"true_class":"incompatible"}
-{"a":{"title":"Causal Inference in Statistics","author":"Judea Pearl"},"b":{"title":"The Book of Why","author":"Judea Pearl"},"true_class":"incompatible"}
-{"a":{"title":"Pattern Recognition and Machine Learning","author":"Christopher Bishop"},"b":{"title":"Pattern Classification","author":"Richard Duda"},"true_class":"incompatible"}
-{"a":{"title":"Hands-On Machine Learning","author":"Aurelien Geron"},"b":{"title":"Hands-On Unsupervised Learning","author":"Ankur Patel"},"true_class":"incompatible"}
-{"a":{"title":"Deep Learning with Python","author":"Francois Chollet"},"b":{"title":"Deep Learning with PyTorch","author":"Eli Stevens"},"true_class":"incompatible"}
-{"a":{"title":"Probabilistic Graphical Models","author":"Daphne Koller"},"b":{"title":"Probabilistic Machine Learning","author":"Kevin Murphy"},"true_class":"incompatible"}
-{"a":{"title":"An Introduction to Statistical Learning","author":"Gareth James"},"b":{"title":"The Elements of Statistical Learning","author":"Trevor Hastie"},"true_class":"incompatible"}
-{"a":{"title":"Machine Learning","author":"Tom Mitchell"},"b":{"title":"Machine Learning: An Algorithmic Perspective","author":"Stephen Marsland"},"true_class":"incompatible"}
+{"a": {"title": "Deep Learning", "author": "Ian Goodfellow", "isbn": "9780262035613"}, "b": {"title": "Natural Language Processing with Python", "author": "Steven Bird", "isbn": "9780596516499"}, "true_class": "incompatible"}
+{"a": {"title": "Machine Learning", "author": "Tom Mitchell"}, "b": {"title": "Machine Learning for Hackers", "author": "Drew Conway"}, "true_class": "incompatible"}
+{"a": {"title": "Causal Inference in Statistics", "author": "Judea Pearl"}, "b": {"title": "The Book of Why", "author": "Judea Pearl"}, "true_class": "incompatible"}
+{"a": {"title": "Probabilistic Graphical Models", "author": "Daphne Koller"}, "b": {"title": "Probabilistic Machine Learning", "author": "Kevin Murphy"}, "true_class": "incompatible"}
+{"a": {"title": "The Pragmatic Programmer", "author": "Andrew Hunt", "isbn": "9780201616224"}, "b": {"title": "Pragmatic Thinking and Learning", "author": "Andy Hunt", "isbn": "9781934356050"}, "true_class": "incompatible"}
+{"a": {"title": "Sapiens", "author": "Yuval Harari", "isbn": "9780062316097"}, "b": {"title": "Homo Deus", "author": "Yuval Harari", "isbn": "9780062464316"}, "true_class": "incompatible"}
+{"a": {"title": "Operating System Concepts", "author": "Abraham Silberschatz", "isbn": "9781119456339"}, "b": {"title": "Modern Operating Systems", "author": "Andrew Tanenbaum", "isbn": "9780133591620"}, "true_class": "incompatible"}
+{"a": {"title": "Database System Concepts", "author": "Abraham Silberschatz", "isbn": "9780078022159"}, "b": {"title": "Fundamentals of Database Systems", "author": "Ramez Elmasri", "isbn": "9780133970777"}, "true_class": "incompatible"}
+{"a": {"title": "Compilers: Principles, Techniques, and Tools", "author": "Alfred Aho", "isbn": "9780321486813"}, "b": {"title": "Engineering a Compiler", "author": "Keith Cooper", "isbn": "9780120884780"}, "true_class": "incompatible"}
+{"a": {"title": "Fluent Python", "author": "Luciano Ramalho", "isbn": "9781492056355"}, "b": {"title": "Python Crash Course", "author": "Eric Matthes", "isbn": "9781718502703"}, "true_class": "incompatible"}
+{"a": {"title": "Computer Networking", "author": "James Kurose", "isbn": "9780136681557"}, "b": {"title": "Computer Networks: A Systems Approach", "author": "Larry Peterson", "isbn": "9780128182000"}, "true_class": "incompatible"}
+{"a": {"title": "Linear Algebra Done Right", "author": "Sheldon Axler", "isbn": "9783319110790"}, "b": {"title": "Linear Algebra and Learning from Data", "author": "Gilbert Strang", "isbn": "9780692196380"}, "true_class": "incompatible"}
+{"a": {"title": "The Pragmatic Programmer", "author": "Andrew Hunt"}, "b": {"title": "The Clean Coder", "author": "Robert Martin"}, "true_class": "incompatible"}
+{"a": {"title": "Fluent Python", "author": "Luciano Ramalho"}, "b": {"title": "Effective Python", "author": "Brett Slatkin"}, "true_class": "incompatible"}
+{"a": {"title": "Operating System Concepts", "author": "Abraham Silberschatz"}, "b": {"title": "Operating Systems: Three Easy Pieces", "author": "Remzi Arpaci-Dusseau"}, "true_class": "incompatible"}
+{"a": {"title": "Hands-On Machine Learning", "author": "Aurelien Geron", "isbn": "9781492032649"}, "b": {"title": "Python Machine Learning", "author": "Sebastian Raschka", "isbn": "9781789955750"}, "true_class": "incompatible"}
+{"a": {"title": "Artificial Intelligence: A Modern Approach", "author": "Stuart Russell", "isbn": "9780134610993"}, "b": {"title": "Artificial Intelligence Basics", "author": "Tom Taulli", "isbn": "9781484250273"}, "true_class": "incompatible"}
+{"a": {"title": "Introduction to Algorithms", "author": "Thomas Cormen"}, "b": {"title": "Algorithms", "author": "Robert Sedgewick"}, "true_class": "incompatible"}
+{"a": {"title": "Machine Learning", "author": "Tom Mitchell"}, "b": {"title": "Machine Learning: An Algorithmic Perspective", "author": "Stephen Marsland"}, "true_class": "incompatible"}
+{"a": {"title": "Deep Learning", "author": "Ian Goodfellow", "isbn": "9780262035613"}, "b": {"title": "Dive into Deep Learning", "author": "Aston Zhang", "isbn": "9781009389433"}, "true_class": "incompatible"}
+{"a": {"title": "Deep Learning", "author": "Ian Goodfellow"}, "b": {"title": "Deep Learning with Python", "author": "Francois Chollet"}, "true_class": "incompatible"}
+{"a": {"title": "Hands-On Machine Learning", "author": "Aurelien Geron"}, "b": {"title": "Hands-On Unsupervised Learning", "author": "Ankur Patel"}, "true_class": "incompatible"}
+{"a": {"title": "Deep Learning with Python", "author": "Francois Chollet"}, "b": {"title": "Deep Learning with PyTorch", "author": "Eli Stevens"}, "true_class": "incompatible"}

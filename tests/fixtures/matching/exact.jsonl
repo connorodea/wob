@@ -4,3 +4,9 @@
 {"a":{"title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell","isbn":"9780134610993"},"b":{"title":"Artificial Intelligence: A Modern Approach","author":"Stuart Russell","isbn":"0134610997"},"true_class":"exact"}
 {"a":{"title":"The Elements of Statistical Learning","author":"Trevor Hastie","isbn":"9780387848570"},"b":{"title":"The Elements of Statistical Learning","author":"T. Hastie","isbn":"9780387848570"},"true_class":"exact"}
 {"a":{"title":"Reinforcement Learning: An Introduction","author":"Richard Sutton","isbn":"9780262039246"},"b":{"title":"Reinforcement Learning: An Introduction","author":"Richard S. Sutton","isbn":"9780262039246"},"true_class":"exact"}
+{"a":{"title":"The Pragmatic Programmer","author":"David Thomas","isbn":"9780201616224"},"b":{"title":"The Pragmatic Programmer","author":"Andrew Hunt","isbn":"9780201616224"},"true_class":"exact"}
+{"a":{"title":"Clean Code","author":"Robert Martin","isbn":"9780132350884"},"b":{"title":"Clean Code: A Handbook of Agile Software Craftsmanship","author":"Robert C. Martin","isbn":"9780132350884"},"true_class":"exact"}
+{"a":{"title":"Introduction to Algorithms","author":"Thomas Cormen","isbn":"9780262033848"},"b":{"title":"Introduction to Algorithms, Third Edition","author":"Thomas H. Cormen","isbn":"9780262033848"},"true_class":"exact"}
+{"a":{"title":"Sapiens","author":"Yuval Noah Harari","isbn":"9780062316097"},"b":{"title":"Sapiens","author":"Yuval N. Harari","isbn":"9780062316097"},"true_class":"exact"}
+{"a":{"title":"Fluent Python","author":"Luciano Ramalho","isbn":"9781492056355"},"b":{"title":"Fluent Python, 2nd Edition","author":"Luciano Ramalho","isbn":"9781492056355"},"true_class":"exact"}
+{"a":{"title":"Designing Data-Intensive Applications","author":"Martin Kleppmann","isbn":"9781449373320"},"b":{"title":"Designing Data-Intensive Applications","author":"Martin Kleppmann","isbn":"9781449373320"},"true_class":"exact"}

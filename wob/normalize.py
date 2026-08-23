@@ -14,33 +14,85 @@ import re
 import unicodedata
 
 FORMATS = {
-    "hardcover", "paperback", "mass_market_paperback", "ebook", "audiobook",
+    "hardcover",
+    "paperback",
+    "mass_market_paperback",
+    "ebook",
+    "audiobook",
     "unknown",
 }
 
 LANG_MAP = {
-    "english": "en", "german": "de", "deutsch": "de", "french": "fr",
-    "francais": "fr", "français": "fr", "spanish": "es", "espanol": "es",
-    "español": "es", "italian": "it", "italiano": "it", "chinese": "zh",
-    "japanese": "ja", "russian": "ru", "portuguese": "pt", "dutch": "nl",
-    "polish": "pl", "arabic": "ar", "korean": "ko", "turkish": "tr",
+    "english": "en",
+    "german": "de",
+    "deutsch": "de",
+    "french": "fr",
+    "francais": "fr",
+    "français": "fr",
+    "spanish": "es",
+    "espanol": "es",
+    "español": "es",
+    "italian": "it",
+    "italiano": "it",
+    "chinese": "zh",
+    "japanese": "ja",
+    "russian": "ru",
+    "portuguese": "pt",
+    "dutch": "nl",
+    "polish": "pl",
+    "arabic": "ar",
+    "korean": "ko",
+    "turkish": "tr",
 }
 
 CURRENCIES = {
-    "USD": "USD", "$": "USD", "US$": "USD", "DOLLARS": "USD", "DOLLAR": "USD",
-    "GBP": "GBP", "£": "GBP", "POUNDS": "GBP", "POUND": "GBP", "STERLING": "GBP",
-    "EUR": "EUR", "€": "EUR", "EUROS": "EUR", "EURO": "EUR",
-    "CAD": "CAD", "AUD": "AUD", "INR": "INR",
+    "USD": "USD",
+    "$": "USD",
+    "US$": "USD",
+    "DOLLARS": "USD",
+    "DOLLAR": "USD",
+    "GBP": "GBP",
+    "£": "GBP",
+    "POUNDS": "GBP",
+    "POUND": "GBP",
+    "STERLING": "GBP",
+    "EUR": "EUR",
+    "€": "EUR",
+    "EUROS": "EUR",
+    "EURO": "EUR",
+    "CAD": "CAD",
+    "AUD": "AUD",
+    "INR": "INR",
 }
 
 _WS = re.compile(r"\s+")
 _PUNCT_EDGE = re.compile(r"^[\s.,;:()\[\]\"'!?-]+|[\s.,;:()\[\]\"'!?-]+$")
 _YEAR = re.compile(r"(?<!\d)(1[4-9]\d{2}|20\d{2}|2100)(?!\d)")
 _MONTHS = {
-    "jan": 1, "january": 1, "feb": 2, "february": 2, "mar": 3, "march": 3,
-    "apr": 4, "april": 4, "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7,
-    "aug": 8, "august": 8, "sep": 9, "sept": 9, "september": 9, "oct": 10,
-    "october": 10, "nov": 11, "november": 11, "dec": 12, "december": 12,
+    "jan": 1,
+    "january": 1,
+    "feb": 2,
+    "february": 2,
+    "mar": 3,
+    "march": 3,
+    "apr": 4,
+    "april": 4,
+    "may": 5,
+    "jun": 6,
+    "june": 6,
+    "jul": 7,
+    "july": 7,
+    "aug": 8,
+    "august": 8,
+    "sep": 9,
+    "sept": 9,
+    "september": 9,
+    "oct": 10,
+    "october": 10,
+    "nov": 11,
+    "november": 11,
+    "dec": 12,
+    "december": 12,
 }
 
 
@@ -51,13 +103,9 @@ def _fold(text):
 
 
 def normalize_title(raw: str) -> str:
-    """Fold accents + case, collapse spaces; strip a trailing subtitle
-    after a colon ONLY when the colon is spaced (title: subtitle)."""
+    """Fold accents + case, collapse spaces. Subtitles are KEPT — they
+    carry identifying words; callers decide how to use them."""
     text = _fold(raw)
-    if not text:
-        return ""
-    if ": " in text:
-        text = text.split(": ", 1)[0]
     return text.lower()
 
 
