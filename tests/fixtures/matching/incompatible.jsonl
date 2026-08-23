@@ -15,9 +15,23 @@
 {"a": {"title": "Operating System Concepts", "author": "Abraham Silberschatz"}, "b": {"title": "Operating Systems: Three Easy Pieces", "author": "Remzi Arpaci-Dusseau"}, "true_class": "incompatible"}
 {"a": {"title": "Hands-On Machine Learning", "author": "Aurelien Geron", "isbn": "9781492032649"}, "b": {"title": "Python Machine Learning", "author": "Sebastian Raschka", "isbn": "9781789955750"}, "true_class": "incompatible"}
 {"a": {"title": "Artificial Intelligence: A Modern Approach", "author": "Stuart Russell", "isbn": "9780134610993"}, "b": {"title": "Artificial Intelligence Basics", "author": "Tom Taulli", "isbn": "9781484250273"}, "true_class": "incompatible"}
-{"a": {"title": "Introduction to Algorithms", "author": "Thomas Cormen"}, "b": {"title": "Algorithms", "author": "Robert Sedgewick"}, "true_class": "incompatible"}
 {"a": {"title": "Machine Learning", "author": "Tom Mitchell"}, "b": {"title": "Machine Learning: An Algorithmic Perspective", "author": "Stephen Marsland"}, "true_class": "incompatible"}
 {"a": {"title": "Deep Learning", "author": "Ian Goodfellow", "isbn": "9780262035613"}, "b": {"title": "Dive into Deep Learning", "author": "Aston Zhang", "isbn": "9781009389433"}, "true_class": "incompatible"}
 {"a": {"title": "Deep Learning", "author": "Ian Goodfellow"}, "b": {"title": "Deep Learning with Python", "author": "Francois Chollet"}, "true_class": "incompatible"}
 {"a": {"title": "Hands-On Machine Learning", "author": "Aurelien Geron"}, "b": {"title": "Hands-On Unsupervised Learning", "author": "Ankur Patel"}, "true_class": "incompatible"}
 {"a": {"title": "Deep Learning with Python", "author": "Francois Chollet"}, "b": {"title": "Deep Learning with PyTorch", "author": "Eli Stevens"}, "true_class": "incompatible"}
+{"a": {"title": "The Mythical Man-Month", "author": "Frederick Brooks", "isbn": "9780201835953"}, "b": {"title": "Code Complete", "author": "Steve McConnell", "isbn": "9780735619678"}, "true_class": "incompatible"}
+{"a": {"title": "A Brief History of Time", "author": "Stephen Hawking", "isbn": "9780553380163"}, "b": {"title": "The Grand Design", "author": "Stephen Hawking", "isbn": "9780553384666"}, "true_class": "incompatible"}
+{"a": {"title": "Thinking, Fast and Slow", "author": "Daniel Kahneman", "isbn": "9780374533557"}, "b": {"title": "Noise", "author": "Daniel Kahneman", "isbn": "9780316451406"}, "true_class": "incompatible"}
+{"a": {"title": "The Lean Startup", "author": "Eric Ries", "isbn": "9780307887894"}, "b": {"title": "Zero to One", "author": "Peter Thiel", "isbn": "9780804139298"}, "true_class": "incompatible"}
+{"a": {"title": "Modern Operating Systems", "author": "Andrew Tanenbaum", "isbn": "9780133591620"}, "b": {"title": "Database System Concepts", "author": "Abraham Silberschatz", "isbn": "9780078022159"}, "true_class": "incompatible"}
+{"a": {"title": "Refactoring", "author": "Martin Fowler", "isbn": "9780134757599"}, "b": {"title": "Working Effectively with Legacy Code", "author": "Michael Feathers", "isbn": "9780131177055"}, "true_class": "incompatible"}
+{"a": {"title": "The C Programming Language", "author": "Brian Kernighan", "isbn": "9780131103627"}, "b": {"title": "C Programming: A Modern Approach", "author": "K. N. King", "isbn": "9780393979503"}, "true_class": "incompatible"}
+{"a": {"title": "Structure and Interpretation of Computer Programs", "author": "Harold Abelson", "isbn": "9780262510875"}, "b": {"title": "Concepts, Techniques, and Models of Computer Programming", "author": "Peter Van Roy", "isbn": "9780262220699"}, "true_class": "incompatible"}
+{"a": {"title": "Peopleware", "author": "Tom DeMarco", "isbn": "9780321934116"}, "b": {"title": "The Mythical Man-Month", "author": "Frederick Brooks", "isbn": "9780201835953"}, "true_class": "incompatible"}
+{"a": {"title": "Code Complete", "author": "Steve McConnell", "isbn": "9780735619678"}, "b": {"title": "Rapid Development", "author": "Steve McConnell", "isbn": "9781556159008"}, "true_class": "incompatible"}
+{"a": {"title": "A Brief History of Time", "author": "Stephen Hawking", "isbn": "9780553380163"}, "b": {"title": "The Universe in a Nutshell", "author": "Stephen Hawking", "isbn": "9780553802023"}, "true_class": "incompatible"}
+{"a": {"title": "The Design of Everyday Things", "author": "Don Norman", "isbn": "9780465050659"}, "b": {"title": "Living with Complexity", "author": "Don Norman", "isbn": "9780262014861"}, "true_class": "incompatible"}
+{"a": {"title": "Modern Operating Systems", "author": "Andrew Tanenbaum"}, "b": {"title": "Operating System Concepts", "author": "Abraham Silberschatz"}, "true_class": "incompatible"}
+{"a": {"title": "Thinking, Fast and Slow", "author": "Daniel Kahneman"}, "b": {"title": "Misbehaving", "author": "Richard Thaler"}, "true_class": "incompatible"}
+{"a": {"title": "Sapiens", "author": "Yuval Harari"}, "b": {"title": "21 Lessons for the 21st Century", "author": "Yuval Harari"}, "true_class": "incompatible"}
